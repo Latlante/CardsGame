@@ -1,5 +1,7 @@
 #include "packetdeck.h"
 
+#include "src_Cards/abstractcard.h"
+
 PacketDeck::PacketDeck(QList<AbstractCard*> listCards) :
 	AbstractPacket(listCards)
 {
@@ -24,12 +26,12 @@ void PacketDeck::mixCards()
 	
 }
 
-Card* PacketDeck::drawCard()
+AbsractCard *PacketDeck::drawCard()
 {
 	return m_listCards.takeFirst();
 }
 
-QList<Card*> PacketDeck::drawCards(int count)
+QList<AbsractCard*> PacketDeck::drawCards(int count)
 {
 	QList<Card*> listCards;
 	

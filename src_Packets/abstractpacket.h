@@ -7,6 +7,7 @@ class AbstractCard;
 
 class AbstractPacket : public QAbstractListModel
 {
+    Q_OBJECT
 public:
 	enum Enum_roleCard
 	{
@@ -23,6 +24,9 @@ public:
 	
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+signals:
+    void countChanged(int);
 	
 protected:
 	QList<AbstractCard*> m_listCards;

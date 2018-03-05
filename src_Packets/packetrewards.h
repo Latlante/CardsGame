@@ -6,8 +6,8 @@
 class PacketRewards : public AbstractPacket
 {
 public:
-    PacketRewards();
-    virtual ~PacketRewards(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    PacketRewards(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    virtual ~PacketRewards();
 	
 	int maxCards();
 

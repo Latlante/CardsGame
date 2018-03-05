@@ -59,7 +59,7 @@ QList<AbstractCard*> GameManager::chooseCards(const QString& name)
     return listCards;
 }
 
-Player *GameManager::addNewPlayer(string name, QList<AbstractCard*> listCards)
+Player *GameManager::addNewPlayer(QString name, QList<AbstractCard*> listCards)
 {
 	Player* newPlayer = new Player(name, listCards);
 	m_listPlayers.append(newPlayer);

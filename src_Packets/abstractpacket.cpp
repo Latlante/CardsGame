@@ -35,6 +35,7 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 		m_listCards.append(newCard);
         endInsertRows();
 
+        emit countChanged(rowCount());
 		statusBack = true;
 	}
 	
@@ -98,6 +99,8 @@ AbstractCard* AbstractPacket::takeACard(int index)
         beginRemoveRows(QModelIndex(), 0, rowCount());
         card = m_listCards.takeAt(index);
         endRemoveRows();
+
+        emit countChanged(rowCount());
     }
 
     return card;

@@ -3,16 +3,18 @@
 
 #include "abstractpacket.h"
 
+class AbsractCard;
+
 class PacketDeck : public AbstractPacket
 {
 public:
-    PacketDeck();
-    virtual ~PacketDeck(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    PacketDeck(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    virtual ~PacketDeck();
 	
 	int maxCards();
 	void mixCards();
-	Card* drawCard();
-	QList<Card*> drawCards(int count);
+    AbsractCard* drawCard();
+    QList<AbsractCard *> drawCards(int count);
 
 private:
 };

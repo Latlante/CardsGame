@@ -6,8 +6,8 @@
 class PacketTrash : public AbstractPacket
 {
 public:
-    PacketTrash();
-    virtual ~PacketTrash(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    PacketTrash(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    virtual ~PacketTrash();
 	
 	int maxCards();
 

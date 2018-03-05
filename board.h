@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <QMainWindow>
+#include "gamemanager.h"
 
 namespace Ui {
 class Board;
@@ -15,8 +16,17 @@ public:
     explicit Board(QWidget *parent = 0);
     ~Board();
 
+private slots:
+    void onCountChanged_Deck_P1(int count);
+    void onCountChanged_Rewards_P1(int count);
+    void onCountChanged_Trash_P1(int count);
+    void onCountChanged_Deck_P2(int count);
+    void onCountChanged_Rewards_P2(int count);
+    void onCountChanged_Trash_P2(int count);
+
 private:
     Ui::Board *ui;
+    GameManager *m_gameManager;
 };
 
 #endif // BOARD_H

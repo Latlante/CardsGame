@@ -16,7 +16,7 @@ public:
 	
 	void initGame();
 	QList<AbstractCard*> chooseCards(const QString& name);
-    Player* addNewPlayer(string name, QList<AbstractCard*> listCards);
+    Player* addNewPlayer(QString name, QList<AbstractCard*> listCards);
 	void startGame();
 	void drawFirstCards(Player* play, int count);
 	int selectFirstPlayer();

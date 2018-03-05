@@ -1,0 +1,50 @@
+#ifndef ABSTRACTCARD_H
+#define ABSTRACTCARD_H
+
+#include <QObject>
+
+class AbstractCard
+{
+public:
+	enum Enum_typeOfCard 
+	{
+		TypeOfCard_Pokemon = 0,
+		TypeOfCard_Energy,
+		TypeOfCard_Action
+	};
+	
+	enum Enum_element
+	{
+		Element_Bug = 0,
+		Element_Dark = 1,
+		Element_Dragon = 2,
+		Element_Electric = 3,
+		Element_Fighting = 4,
+		Element_Fire = 5,
+		Element_Flying = 6,
+		Element_Ghost = 7,
+		Element_Grass = 8,
+		Element_Ice = 9,
+		Element_Normal = 10,		
+		Element_Poison = 11,
+		Element_Psychic = 12,
+		Element_Rock = 13,
+        Element_Water = 14,
+        Element_Count
+	};
+
+    AbstractCard(unsigned short id, const QString& name);
+    virtual ~AbstractCard();
+	
+	virtual Enum_typeOfCard type() = 0;
+	
+	const QString name();
+	void setName(const QString& name);
+
+private:
+	unsigned short m_id;
+	QString m_name;
+	Enum_typeOfCard m_type;
+};
+
+#endif // ABSTRACTCARD_H

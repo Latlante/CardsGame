@@ -30,7 +30,7 @@ public:
 		Element_Psychic = 12,
 		Element_Rock = 13,
         Element_Water = 14,
-        Element_Count
+        Element_COUNT
 	};
 
     AbstractCard(unsigned short id, const QString& name);

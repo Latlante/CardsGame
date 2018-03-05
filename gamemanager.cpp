@@ -1,6 +1,9 @@
 #include "gamemanager.h"
 #include "src_Cards/abstractcard.h"
 
+#include "dlgselectcards.h"
+#include "utils.h"
+
 GameManager::GameManager(QObject *parent = NULL) :
 	QObject(parent),
 	m_listPlayers(QList<Player*>()),
@@ -42,6 +45,18 @@ void GameManager::initGame()
 QList<AbstractCard*> GameManager::chooseCards(const QString& name)
 {
 	//Connecter à la fenêtre de sélection
+    QList<AbstractCard*> listCards;
+    DlgSelectCards *fen = new DlgSelectCards();
+#ifdef MODE_TEST
+    listCards = fen->listOfRandomCards();
+#else
+    fen->exec();
+    listCards = fen->listOfSelectedCards();
+#endif
+
+    delete fen;
+
+    return listCards;
 }
 
 Player *GameManager::addNewPlayer(string name, QList<AbstractCard*> listCards)

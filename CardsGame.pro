@@ -44,7 +44,8 @@ SOURCES += \
     gamemanager.cpp \
     player.cpp \
     dlgselectcards.cpp \
-    utils.cpp
+    utils.cpp \
+    common/database.cpp
 
 HEADERS += \
         board.h \
@@ -62,7 +63,8 @@ HEADERS += \
     gamemanager.h \
     player.h \
     dlgselectcards.h \
-    utils.h
+    utils.h \
+    common/database.h
 
 FORMS += \
         board.ui \

@@ -1,6 +1,7 @@
 #include "gamemanager.h"
 #include "src_Cards/abstractcard.h"
 
+#include <QDebug>
 #include "dlgselectcards.h"
 #include "utils.h"
 
@@ -74,6 +75,7 @@ void GameManager::startGame()
 
 void GameManager::drawFirstCards(int count)
 {
+    qDebug() << "count Players:" << m_listPlayers.count();
     foreach(Player *play, m_listPlayers)
     {
         for(int i=0;i<count;++i)

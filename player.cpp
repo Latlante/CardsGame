@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <QDebug>
 #include "src_Cards/abstractcard.h"
 #include "src_Packets/bencharea.h"
 #include "src_Packets/fightarea.h"
@@ -81,8 +82,16 @@ void Player::blockPlayer()
 
 void Player::drawOneCard()
 {
-	AbstractCard* newCard = m_deck->drawCard();
-	m_hand->addNewCard(newCard);
+    if (!m_hand->isFull())
+    {
+        AbstractCard* newCard = m_deck->drawCard();
+        qDebug() << "drawOneCard" << newCard->name();
+        m_hand->addNewCard(newCard);
+    }
+    else
+    {
+        qCritical() << __PRETTY_FUNCTION__ << ", Packet full";
+    }
 }
 
 bool Player::isWinner()

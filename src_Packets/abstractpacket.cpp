@@ -27,15 +27,28 @@ void AbstractPacket::declareQML()
     //qmlRegisterUncreatableType<AbstractPacket>("com.gui", 1, 0, "FMUnfinishedTransactionListModel", "ItemType FMUnfinishedTransactionListModel cannot be created.");
 }
 
+bool AbstractPacket::isFull()
+{
+    bool full = false;
+
+    if ((maxCards() >= 0) && (rowCount() >= maxCards()))
+        full = true;
+
+    return full;
+}
+
 bool AbstractPacket::addNewCard(AbstractCard* newCard)
 {
+    qDebug() << __PRETTY_FUNCTION__;
 	bool statusBack = false;
 	
-	if ((NULL != newCard) && (m_listCards.count() <= maxCards()))
+    if ((NULL != newCard) && (!isFull()))
 	{
-        beginInsertRows(QModelIndex(), 0, rowCount());
 		m_listCards.append(newCard);
+        beginInsertRows(QModelIndex(), 0, rowCount());
         endInsertRows();
+
+        qDebug() << __PRETTY_FUNCTION__ << "Carte ajoutée";
 
         emit countChanged(rowCount());
 		statusBack = true;
@@ -51,7 +64,7 @@ int AbstractPacket::rowCount(const QModelIndex& parent) const
 
 QVariant AbstractPacket::data(const QModelIndex& index, int role) const
 {
-    //qDebug() << __METHOD_NAME__ << ", index: " << index << ", role: " << role;
+    //qDebug() << __PRETTY_FUNCTION__ << ", index: " << index << ", role: " << role;
 
     /*int iRow = index.row();
     if (iRow < 0 || iRow >= m_listUnfinishedTransaction.count())
@@ -93,9 +106,9 @@ QVariant AbstractPacket::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (Role_name == role)
+    if ((Role_name == role) || (Qt::DisplayRole == role))
     {
-        return "Test";
+        return m_listCards[index.row()]->name();
     }
 
     return QVariant::Invalid;

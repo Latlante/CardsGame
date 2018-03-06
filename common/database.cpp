@@ -63,6 +63,7 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
             }
         }
 
+        attack.costEnergies = listEnergies;
         listAttacks.append(attack);
         offset += InfoAtt_COUNT;
     }

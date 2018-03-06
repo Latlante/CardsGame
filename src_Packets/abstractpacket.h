@@ -19,11 +19,12 @@ public:
 	
 	static void declareQML();
 	
-    virtual int maxCards() { return 10; }
+    virtual int maxCards() = 0;
+    bool isFull();
 	bool addNewCard(AbstractCard* newCard);
 	
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 signals:
     void countChanged(int);

@@ -63,14 +63,33 @@ QList<AbstractCard*> GameManager::chooseCards(const QString& name)
 Player *GameManager::addNewPlayer(QString name, QList<AbstractCard*> listCards)
 {
 	Player* newPlayer = new Player(name, listCards);
+
+    connect(newPlayer, &Player::endOfTurn, this, &GameManager::onEndOfTurn_Player);
+
 	m_listPlayers.append(newPlayer);
 
     return newPlayer;
 }
 
+Player* GameManager::currentPlayer()
+{
+    Player* playerPlaying = NULL;
+
+    foreach(Player *play, m_listPlayers)
+    {
+        if (true == play->isPlaying())
+        {
+            playerPlaying = play;
+            break;
+        }
+    }
+
+    return playerPlaying;
+}
+
 void GameManager::startGame()
 {
-	
+    onEndOfTurn_Player();
 }
 
 void GameManager::drawFirstCards(int count)
@@ -93,9 +112,7 @@ int GameManager::selectFirstPlayer()
 }
 
 void GameManager::nextPlayer()
-{
-	endOfTurn();
-	
+{	
 	m_indexCurrentPlayer++;
 	if (m_listPlayers.count() <= m_indexCurrentPlayer)
 		m_indexCurrentPlayer = 0;
@@ -121,4 +138,26 @@ bool GameManager::gameIsFinished()
 	}
 	
 	return hasAWinner;
+}
+
+/************************************************************
+*****			  FONCTIONS SLOTS PRIVEES				*****
+************************************************************/
+void GameManager::onEndOfTurn_Player()
+{
+    //On bloque tous les joueurs
+    foreach(Player* play, m_listPlayers)
+        play->blockPlayer();
+
+    //On vérifie si quelqu'un a gagné
+    bool hasAWinner = false;
+
+    foreach(Player* play, m_listPlayers)
+        hasAWinner |= play->isWinner();
+
+    //S'il n'y a pas encore de vainqueur, on laisse le prochain joueur jouer
+    if(hasAWinner == false)
+    {
+        nextPlayer();
+    }
 }

@@ -33,6 +33,7 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *layout_PlayerArea_P2;
+    QPushButton *pushButton_EndOfTurn_P2;
     QHBoxLayout *horizontalLayout_4;
     QListView *listView_Hand_P2;
     QListView *listView_BenchArea_P2;
@@ -63,7 +64,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QListView *listView_Hand_P1;
     QListView *listView_BenchArea_P1;
-    QPushButton *pushButton_DrawCards;
+    QPushButton *pushButton_EndOfTurn_P1;
+    QPushButton *pushButton_StartGame;
 
     void setupUi(QMainWindow *Board)
     {
@@ -80,6 +82,11 @@ public:
         layout_PlayerArea_P2 = new QVBoxLayout();
         layout_PlayerArea_P2->setSpacing(6);
         layout_PlayerArea_P2->setObjectName(QStringLiteral("layout_PlayerArea_P2"));
+        pushButton_EndOfTurn_P2 = new QPushButton(centralWidget);
+        pushButton_EndOfTurn_P2->setObjectName(QStringLiteral("pushButton_EndOfTurn_P2"));
+
+        layout_PlayerArea_P2->addWidget(pushButton_EndOfTurn_P2);
+
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
@@ -155,8 +162,8 @@ public:
 
         layout_PlayerArea_P2->addLayout(horizontalLayout_3);
 
-        layout_PlayerArea_P2->setStretch(0, 2);
-        layout_PlayerArea_P2->setStretch(1, 1);
+        layout_PlayerArea_P2->setStretch(1, 2);
+        layout_PlayerArea_P2->setStretch(2, 1);
 
         verticalLayout->addLayout(layout_PlayerArea_P2);
 
@@ -243,15 +250,20 @@ public:
 
         layout_PlayerArea_P1->addLayout(horizontalLayout);
 
+        pushButton_EndOfTurn_P1 = new QPushButton(centralWidget);
+        pushButton_EndOfTurn_P1->setObjectName(QStringLiteral("pushButton_EndOfTurn_P1"));
+
+        layout_PlayerArea_P1->addWidget(pushButton_EndOfTurn_P1);
+
         layout_PlayerArea_P1->setStretch(0, 1);
         layout_PlayerArea_P1->setStretch(1, 2);
 
         verticalLayout->addLayout(layout_PlayerArea_P1);
 
-        pushButton_DrawCards = new QPushButton(centralWidget);
-        pushButton_DrawCards->setObjectName(QStringLiteral("pushButton_DrawCards"));
+        pushButton_StartGame = new QPushButton(centralWidget);
+        pushButton_StartGame->setObjectName(QStringLiteral("pushButton_StartGame"));
 
-        verticalLayout->addWidget(pushButton_DrawCards);
+        verticalLayout->addWidget(pushButton_StartGame);
 
         Board->setCentralWidget(centralWidget);
 
@@ -263,6 +275,7 @@ public:
     void retranslateUi(QMainWindow *Board)
     {
         Board->setWindowTitle(QApplication::translate("Board", "Board", Q_NULLPTR));
+        pushButton_EndOfTurn_P2->setText(QApplication::translate("Board", "Fin du tour", Q_NULLPTR));
         label_8->setText(QApplication::translate("Board", "PLAYER 2", Q_NULLPTR));
         label_2->setText(QApplication::translate("Board", "Deck:", Q_NULLPTR));
         label_Deck_P2->setText(QApplication::translate("Board", "0", Q_NULLPTR));
@@ -277,7 +290,8 @@ public:
         label_Trash_P1->setText(QApplication::translate("Board", "0", Q_NULLPTR));
         label_5->setText(QApplication::translate("Board", "Rewards:", Q_NULLPTR));
         label_Rewards_P1->setText(QApplication::translate("Board", "0", Q_NULLPTR));
-        pushButton_DrawCards->setText(QApplication::translate("Board", "Distribuer", Q_NULLPTR));
+        pushButton_EndOfTurn_P1->setText(QApplication::translate("Board", "Fin du tour", Q_NULLPTR));
+        pushButton_StartGame->setText(QApplication::translate("Board", "Commencer le jeu", Q_NULLPTR));
     } // retranslateUi
 
 };

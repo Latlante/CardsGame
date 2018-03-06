@@ -4,6 +4,9 @@
 #include <QObject>
 
 class AbstractCard;
+class CardAction;
+class CardEnergy;
+class CardPokemon;
 class PacketDeck;
 class PacketRewards;
 class PacketHand;
@@ -28,13 +31,22 @@ public:
 	
 	void init(QList<AbstractCard*> listCards);
 	void newTurn();
+    void skipYourTurn();
 	void blockPlayer();
+    bool isPlaying();
 	void drawOneCard();
 	bool isWinner();
 
+    bool moveCardFromHandToBench(const QModelIndex& index);
+
+
+signals:
+    void endOfTurn();
 
 private:
 	QString m_name;
+    bool m_canPlay;
+
     BenchArea* m_bench;
 	PacketDeck* m_deck;
     FightArea* m_fight;

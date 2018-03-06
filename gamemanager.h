@@ -17,12 +17,17 @@ public:
 	void initGame();
 	QList<AbstractCard*> chooseCards(const QString& name);
     Player* addNewPlayer(QString name, QList<AbstractCard*> listCards);
-	void startGame();
+    Player* currentPlayer();
+    void startGame();
     void drawFirstCards(int count);
 	int selectFirstPlayer();
 	void nextPlayer();
 	void endOfTurn();
 	bool gameIsFinished();
+
+
+private slots:
+    void onEndOfTurn_Player();
 
 private:
 	QList<Player*> m_listPlayers;

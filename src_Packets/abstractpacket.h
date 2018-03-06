@@ -32,7 +32,7 @@ signals:
 protected:
 	QList<AbstractCard*> m_listCards;
 
-    AbstractCard* takeACard(int index);
+    virtual AbstractCard* takeACard(int index);
 	QHash<int, QByteArray> roleNames() const override;
 
 

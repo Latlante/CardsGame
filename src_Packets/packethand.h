@@ -11,6 +11,8 @@ public:
 	
 	int maxCards();
 
+    AbstractCard* takeACard(int index) override;
+
 private:
 
 };

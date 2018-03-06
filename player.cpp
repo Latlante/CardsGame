@@ -2,6 +2,9 @@
 
 #include <QDebug>
 #include "src_Cards/abstractcard.h"
+#include "src_Cards/cardaction.h"
+#include "src_Cards/cardenergy.h"
+#include "src_Cards/cardpokemon.h"
 #include "src_Packets/bencharea.h"
 #include "src_Packets/fightarea.h"
 #include "src_Packets/packetdeck.h"
@@ -12,6 +15,7 @@
 Player::Player(QString name, QList<AbstractCard*> listCards, QObject *parent) :
 	QObject(parent),
     m_name(name),
+    m_canPlay(false),
     m_bench(new BenchArea()),
     m_deck(new PacketDeck(listCards)),
     m_fight(new FightArea()),
@@ -72,12 +76,22 @@ void Player::init(QList<AbstractCard*> listCards)
 
 void Player::newTurn()
 {
-	
+    m_canPlay = true;
+}
+
+void Player::skipYourTurn()
+{
+    emit endOfTurn();
 }
 
 void Player::blockPlayer()
 {
-	
+    m_canPlay = false;
+}
+
+bool Player::isPlaying()
+{
+    return m_canPlay;
 }
 
 void Player::drawOneCard()
@@ -97,4 +111,46 @@ void Player::drawOneCard()
 bool Player::isWinner()
 {
     return 0 == m_rewards->rowCount();
+}
+
+bool Player::moveCardFromHandToBench(const QModelIndex &index)
+{
+    bool moveSuccess = false;
+
+    //On vérifie qu'il reste de la place sur le banc
+    if (bench()->isFull() == false)
+    {
+        AbstractCard* cardToMove = hand()->takeACard(index.row());
+
+        if (cardToMove != NULL)
+        {
+            //On autorise uniquement les cartes de type Pokemon a être posé sur le banc
+            if (cardToMove->type() == AbstractCard::TypeOfCard_Pokemon)
+            {
+                CardPokemon* cardPok = static_cast<CardPokemon*>(cardToMove);
+
+                //On refuse les évolutions
+                if (cardPok->isBase() == true)
+                {
+                    bench()->addNewCard(cardPok);
+                    moveSuccess = true;
+                }
+                qDebug() << __PRETTY_FUNCTION__ << ", cardPok n'est pas une base";
+            }
+            else
+            {
+                qDebug() << __PRETTY_FUNCTION__ << ", cardToMove n'est pas du bon type:" << cardToMove->type();
+            }
+        }
+        else
+        {
+            qDebug() << __PRETTY_FUNCTION__ << ", cardToMove is NULL";
+        }
+
+        //Une chose n'allait pas et on retourne la carte sur le paquet d'origine
+        if (moveSuccess == false)
+            hand()->addNewCard(cardToMove);
+    }
+
+    return moveSuccess;
 }

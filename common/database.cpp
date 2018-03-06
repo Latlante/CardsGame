@@ -68,12 +68,14 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
         offset += InfoAtt_COUNT;
     }
 
+    //short idSubevolution =
+
     return new CardPokemon( arguments[InfoDbPok_Id].toInt(),
                             arguments[InfoDbPok_Name],
                             static_cast<AbstractCard::Enum_element>(arguments[InfoDbPok_Element].toInt()),
                             arguments[InfoDbPok_Life].toUShort(),
                             listAttacks,
-                            arguments[InfoDbPok_IdSubevolution].toShort());
+                            arguments[InfoDbPok_IdSubevolution] == "" ? -1 : arguments[InfoDbPok_IdSubevolution].toShort());
 }
 
 CardEnergy* Database::newCardEnergy(const QString &infoCsv)

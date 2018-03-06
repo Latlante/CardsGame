@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <QMainWindow>
+#include <QMultiMap>
 #include "gamemanager.h"
 
 namespace Ui {
@@ -24,13 +25,21 @@ private slots:
     void onCountChanged_Rewards_P2(int count);
     void onCountChanged_Trash_P2(int count);
 
-    void onCountChanged_Packets(int count);
+    void onDClickedCell_Hand_P1(const QModelIndex &index);
+    void onDClickedCell_Hand_P2(const QModelIndex &index);
 
-    void onClicked_pushButton_DrawCards();
+    void onClicked_pushButton_EndOfTurn();
+
+    //void onCountChanged_Packets(int count);
+
+    void onClicked_pushButton_StartGame();
 
 private:
     Ui::Board *ui;
     GameManager *m_gameManager;
+    QMultiMap<Player*,QWidget*> m_listWidgetsByPlayer;
+
+    Player* findPlayerByWidget(QWidget* wid);
 };
 
 #endif // BOARD_H

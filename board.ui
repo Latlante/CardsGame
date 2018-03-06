@@ -28,7 +28,14 @@
      <number>2</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="layout_PlayerArea_P2" stretch="2,1">
+     <layout class="QVBoxLayout" name="layout_PlayerArea_P2" stretch="0,2,1">
+      <item>
+       <widget class="QPushButton" name="pushButton_EndOfTurn_P2">
+        <property name="text">
+         <string>Fin du tour</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -127,7 +134,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="layout_PlayerArea_P1" stretch="1,2">
+     <layout class="QVBoxLayout" name="layout_PlayerArea_P1" stretch="1,2,0">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -216,12 +223,19 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_EndOfTurn_P1">
+        <property name="text">
+         <string>Fin du tour</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_DrawCards">
+     <widget class="QPushButton" name="pushButton_StartGame">
       <property name="text">
-       <string>Distribuer</string>
+       <string>Commencer le jeu</string>
       </property>
      </widget>
     </item>

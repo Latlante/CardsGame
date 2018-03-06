@@ -36,8 +36,8 @@ public:
         InfoDbPok_CostRetreat,
         InfoDbPok_IdSubevolution,
         InfoDbPok_Att1,
-        InfoDbPok_Att2 = InfoDb_Att1 + InfoAtt_COUNT,
-        InfoDbPok_Att3 = InfoDb_Att2 + InfoAtt_COUNT
+        InfoDbPok_Att2 = InfoDbPok_Att1 + InfoAtt_COUNT,
+        InfoDbPok_Att3 = InfoDbPok_Att2 + InfoAtt_COUNT
     };
 
     enum Enum_InformationEnergiesDatabase

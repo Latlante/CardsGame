@@ -14,7 +14,7 @@ class DlgSelectCards : public QDialog
     Q_OBJECT
 
 public:
-    explicit DlgSelectCards(QWidget *parent = 0);
+    explicit DlgSelectCards(const QString& name, QWidget *parent = 0);
     ~DlgSelectCards();
 
     QList<AbstractCard*> listOfSelectedCards();
@@ -22,6 +22,7 @@ public:
 
 private:
     Ui::DlgSelectCards *ui;
+    QString m_name;
 };
 
 #endif // DLGSELECTCARDS_H

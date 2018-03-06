@@ -19,11 +19,11 @@ public:
 	Player(QString name, QList<AbstractCard*> listCards, QObject *parent = NULL);
 	~Player();
 	
+    BenchArea* bench();
 	PacketDeck* deck();
-	PacketRewards* rewards();
+    FightArea* fight();
 	PacketHand* hand();
-	BenchArea* bench();
-	FightArea* fight();
+    PacketRewards* rewards();
     PacketTrash* trash();
 	
 	void init(QList<AbstractCard*> listCards);
@@ -35,11 +35,11 @@ public:
 
 private:
 	QString m_name;
+    BenchArea* m_bench;
 	PacketDeck* m_deck;
+    FightArea* m_fight;
+    PacketHand* m_hand;
 	PacketRewards* m_rewards;
-	PacketHand* m_hand;
-	BenchArea* m_bench;
-	FightArea* m_fight;
     PacketTrash* m_trash;
 
 

@@ -3,13 +3,16 @@
 
 #include "abstractcard.h"
 
+#include <QMap>
+class CardEnergy;
+
 struct AttackData
 {
 	QString name;
 	QString description;
 	unsigned short damage;
     QMap<AbstractCard::Enum_element, unsigned short> costEnergies;
-	AbstractAction* action;
+    //AbstractAction* action;
 };
 
 class CardPokemon : public QObject, public AbstractCard
@@ -32,7 +35,6 @@ public:
 				unsigned short lifeTotal,
 				QList<AttackData> listAttacks,
 				short evolutionFrom = -1);
-    CardPokemon(const QString& infoCsv);
     ~CardPokemon();
 
 	AbstractCard::Enum_typeOfCard type();
@@ -44,7 +46,7 @@ public:
 	unsigned short countEnergies();
 	unsigned short countEnergies(Enum_element element);
 	
-	bool tryToAttack(int indexAttack, const CardPokemon& enemy);
+    bool tryToAttack(int indexAttack, CardPokemon &enemy);
 	void takeDamage(unsigned short damage);
 	bool canAttackFromStatus();
 	bool hasEnoughEnergies(AttackData attack);

@@ -4,7 +4,7 @@
 #include "dlgselectcards.h"
 #include "utils.h"
 
-GameManager::GameManager(QObject *parent = NULL) :
+GameManager::GameManager(QObject *parent) :
 	QObject(parent),
 	m_listPlayers(QList<Player*>()),
 	m_indexCurrentPlayer(0),
@@ -46,7 +46,7 @@ QList<AbstractCard*> GameManager::chooseCards(const QString& name)
 {
 	//Connecter à la fenêtre de sélection
     QList<AbstractCard*> listCards;
-    DlgSelectCards *fen = new DlgSelectCards();
+    DlgSelectCards *fen = new DlgSelectCards(name);
 #ifdef MODE_TEST
     listCards = fen->listOfRandomCards();
 #else
@@ -72,17 +72,22 @@ void GameManager::startGame()
 	
 }
 
-void GameManager::drawFirstCards(Player* play, int count)
+void GameManager::drawFirstCards(int count)
 {
-	for(int i=0;i<count;++i)
-	{
-		play->drawOneCard();
-	}
+    foreach(Player *play, m_listPlayers)
+    {
+        for(int i=0;i<count;++i)
+        {
+            play->drawOneCard();
+        }
+    }
+
 }
 
 int GameManager::selectFirstPlayer()
 {
     m_indexCurrentPlayer = Utils::selectFirstPlayer(m_listPlayers.count());
+    return m_indexCurrentPlayer;
 }
 
 void GameManager::nextPlayer()

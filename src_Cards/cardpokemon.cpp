@@ -1,5 +1,6 @@
 #include "cardpokemon.h"
-#include <QMap>
+
+#include "cardenergy.h"
 
 CardPokemon::CardPokemon(unsigned short id, 
 			const QString& name, 
@@ -17,41 +18,6 @@ CardPokemon::CardPokemon(unsigned short id,
 	m_evolutionFrom(evolutionFrom)
 {
 	
-}
-
-CardPokemon::CardPokemon(const QString &infoCsv)
-{
-    QStringList arguments = infoCsv.split(";");
-
-    QList<AttackData> listAttacks;
-    for(int i=0;i<3;++i)
-    {
-        AttackData attack;
-        attack.name = arguments[InfoDb_Att1_Name];
-        attack.description = arguments[InfoDb_Att1_Description];
-        attack.damage = arguments[InfoDb_Att1_Damage].toInt();
-
-        QMap<AbstractCard::Enum_element, unsigned short> listEnergies;
-        for(int indexEnergies=0;indexEnergies<AbstractCard::Element_Count;++indexEnergies)
-        {
-            int indexEnergy = static_cast<int>(InfoDb_Att1_Element_Bug)+indexEnergies;
-            QString contenuCell = arguments[indexEnergy];
-
-            if (contenuCell != "")
-            {
-                listEnergies.insert(indexEnergies, contenuCell.toInt());
-            }
-        }
-    }
-
-    AttackData attack1;
-    attack1.name = informationForLine[9];
-    attack1.description = informationForLine[10];
-    attack1.damage = informationForLine[11].toInt();
-    cardToReturn = new CardPokemon( informationForLine[0].toInt(),
-                                    informationForLine[1],
-                                    static_cast<AbstractCard::Enum_element>(informationForLine[3]),
-                                    informationForLine[2].toUShort(),);
 }
 				
 CardPokemon::~CardPokemon()
@@ -77,7 +43,7 @@ unsigned short CardPokemon::lifeLeft()
 	return m_lifeLeft;
 }
 
-Enum_statusOfPokemon CardPokemon::status()
+CardPokemon::Enum_statusOfPokemon CardPokemon::status()
 {
 	return m_status;
 }
@@ -98,26 +64,26 @@ unsigned short CardPokemon::countEnergies(Enum_element element)
 	
 	foreach (CardEnergy* energy, m_listEnergies)
 	{
-		if (energy.element() == element)
+        if (energy->element() == element)
 			count++;
 	}
 	
 	return count;
 }
 
-bool CardPokemon::tryToAttack(int indexAttack, const CardPokemon& enemy)
+bool CardPokemon::tryToAttack(int indexAttack, CardPokemon& enemy)
 {
 	bool statusBack = false;
 	
 	if ((0 > indexAttack) || (m_listAttacks.count() <= indexAttack))
-		throw "CardPokemon::attack() => index incohérent (" + indexAttack + ")";
+        throw "CardPokemon::attack() => index incohérent (" + QString::number(indexAttack) + ")";
 	
 	if (true == hasEnoughEnergies(indexAttack))
 	{
 		if (true == canAttackFromStatus())
 		{
 			AttackData attack = m_listAttacks[indexAttack];
-			enemy.takeDamage(attack.damage);
+            enemy.takeDamage(attack.damage);
 			//attack.action.execute();
 			
 			statusBack = true;
@@ -150,9 +116,10 @@ bool CardPokemon::hasEnoughEnergies(AttackData attack)
 	
 	if (0 < attack.costEnergies.count())
 	{
-		foreach (QPair<Enum_element, unsigned short> energy, attack.costEnergies)
+        foreach (Enum_element indexElement, attack.costEnergies.keys())
 		{
-			if (countEnergies(energy.first()) < energy.second())
+
+            if (countEnergies(indexElement) < attack.costEnergies.value(indexElement))
 				statusBack = false;
 		}
 	}
@@ -179,10 +146,10 @@ bool CardPokemon::isBase()
 
 bool CardPokemon::isSubEvolutionOf(CardPokemon* evolution)
 {
-	return m_id == evolution.m_evolutionFrom;
+    return m_id == evolution->m_evolutionFrom;
 }
 
 bool CardPokemon::isEvolutionOf(CardPokemon* evolution)
 {
-	return m_evolutionFrom == evolution.m_id;
+    return m_evolutionFrom == evolution->m_id;
 }

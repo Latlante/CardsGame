@@ -13,8 +13,8 @@ public:
 	
 	int maxCards();
 	void mixCards();
-    AbsractCard* drawCard();
-    QList<AbsractCard *> drawCards(int count);
+    AbstractCard *drawCard();
+    QList<AbstractCard *> drawCards(int count);
 
 private:
 };

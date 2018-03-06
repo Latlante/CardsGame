@@ -1,8 +1,10 @@
 #include "abstractpacket.h"
+
+#include <QDebug>
 #include "src_Cards/abstractcard.h"
 
 AbstractPacket::AbstractPacket(QList<AbstractCard*> listCards) :
-	QAbstractListModel(),
+    QAbstractListModel(NULL),
 	m_listCards(listCards)
 {
 	
@@ -84,6 +86,18 @@ QVariant AbstractPacket::data(const QModelIndex& index, int role) const
         return QVariant();
     }*/
 
+    int iRow = index.row();
+    if (iRow < 0 || iRow >= rowCount())
+    {
+        qCritical() << __PRETTY_FUNCTION__ << "bad row num : " << iRow;
+        return QVariant();
+    }
+
+    if (Role_name == role)
+    {
+        return "Test";
+    }
+
     return QVariant::Invalid;
 }
 
@@ -113,6 +127,7 @@ QHash<int, QByteArray> AbstractPacket::roleNames() const
     roles[TRANSACTION_SOURCE_SN] = "source";
     roles[TRANSACTION_NUMBER_OF_UV] = "numberUV";
     roles[TRANSACTION_STATUS] = "status";*/
+    roles[Role_name] = "name";
 
     return roles;
 }

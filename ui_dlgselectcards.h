@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'dlgselectcards.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.9.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -54,8 +54,8 @@ public:
 
     void retranslateUi(QDialog *DlgSelectCards)
     {
-        DlgSelectCards->setWindowTitle(QApplication::translate("DlgSelectCards", "Dialog", nullptr));
-        label->setText(QApplication::translate("DlgSelectCards", "Select cards", nullptr));
+        DlgSelectCards->setWindowTitle(QApplication::translate("DlgSelectCards", "Dialog", Q_NULLPTR));
+        label->setText(QApplication::translate("DlgSelectCards", "Select cards", Q_NULLPTR));
     } // retranslateUi
 
 };

@@ -6,8 +6,8 @@
 class BenchArea : public AbstractPacket
 {
 public:
-    BenchArea();
-    virtual ~BenchArea(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    BenchArea(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    virtual ~BenchArea();
 	
 	int maxCards();
 

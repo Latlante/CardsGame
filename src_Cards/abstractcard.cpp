@@ -15,7 +15,7 @@ AbstractCard::~AbstractCard()
 /************************************************************
 *****				FONCTIONS PUBLIQUES					*****
 ************************************************************/
-const AbstractCard::QString name()
+const QString AbstractCard::name()
 {
 	return m_name;
 }

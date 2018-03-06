@@ -8,29 +8,45 @@
 #include "src_Packets/packetrewards.h"
 #include "src_Packets/packettrash.h"
 
-Player::Player(QString name, QList<AbstractCard*> listCards, QObject *parent = NULL) :
+Player::Player(QString name, QList<AbstractCard*> listCards, QObject *parent) :
 	QObject(parent),
-	m_name(name)
+    m_name(name),
+    m_bench(new BenchArea()),
+    m_deck(new PacketDeck(listCards)),
+    m_fight(new FightArea()),
+    m_hand(new PacketHand()),
+    m_rewards(new PacketRewards()),
+    m_trash(new PacketTrash())
 {
 	
 }
 
 Player::~Player()
 {
-	
+    delete m_bench;
+    delete m_deck;
+    delete m_fight;
+    delete m_hand;
+    delete m_rewards;
+    delete m_trash;
 }
 
 /************************************************************
 *****				FONCTIONS PUBLIQUES					*****
 ************************************************************/
+BenchArea* Player::bench()
+{
+    return m_bench;
+}
+
 PacketDeck* Player::deck()
 {
 	return m_deck;
 }
 
-PacketRewards* Player::rewards()
+FightArea* Player::fight()
 {
-	return m_rewards;
+    return m_fight;
 }
 
 PacketHand* Player::hand()
@@ -38,14 +54,9 @@ PacketHand* Player::hand()
 	return m_hand;
 }
 
-BenchArea* Player::bench()
+PacketRewards* Player::rewards()
 {
-	return m_bench;
-}
-
-FightArea* Player::fight()
-{
-	return m_fight;
+    return m_rewards;
 }
 
 PacketTrash* Player::trash()
@@ -76,5 +87,5 @@ void Player::drawOneCard()
 
 bool Player::isWinner()
 {
-	return 0 == m_rewards.rowCount();
+    return 0 == m_rewards->rowCount();
 }

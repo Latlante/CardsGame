@@ -5,9 +5,10 @@
 #include "utils.h"
 #include "common/database.h"
 
-DlgSelectCards::DlgSelectCards(QWidget *parent) :
+DlgSelectCards::DlgSelectCards(const QString &name, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DlgSelectCards)
+    ui(new Ui::DlgSelectCards),
+    m_name(name)
 {
     ui->setupUi(this);
 }
@@ -22,7 +23,7 @@ DlgSelectCards::~DlgSelectCards()
 ************************************************************/
 QList<AbstractCard*> DlgSelectCards::listOfSelectedCards()
 {
-
+    return QList<AbstractCard*>();
 }
 
 QList<AbstractCard*> DlgSelectCards::listOfRandomCards()
@@ -32,13 +33,13 @@ QList<AbstractCard*> DlgSelectCards::listOfRandomCards()
 
     for(int i=0;i<6;++i)
     {
-        int idPokemon = Utils::randomValue(0, 10);
+        int idPokemon = Utils::selectRandomCardsPokemon();
         listCards.append(db.cardById(idPokemon));
     }
 
     for(int i=0;i<4;++i)
     {
-        int idEnergy = Utils::randomValue(INDEX_START_ENERGIES, INDEX_START_ENERGIES+10);
+        int idEnergy = Utils::selectRandomCardsEnergy();
         listCards.append(db.cardById(idEnergy));
     }
 

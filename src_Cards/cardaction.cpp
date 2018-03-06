@@ -1,16 +1,16 @@
 #include "cardaction.h"
 
-CardAction::CardAction(unsigned short id, const QString& name, const QString& description, AbstractAction* action) :
+CardAction::CardAction(unsigned short id, const QString& name, const QString& description/*, AbstractAction* action*/) :
 	AbstractCard(id, name),
-	m_description(description),
-	m_action(action)
+    m_description(description)
+    //m_action(action)
 {
 	
 }
 
 CardAction::~CardAction()
 {
-	delete m_action;
+    //delete m_action;
 }
 
 /************************************************************
@@ -26,12 +26,12 @@ const QString CardAction::description()
 	return m_description;
 }
 
-AbstractAction* CardAction::action()
+/*AbstractAction* CardAction::action()
 {
 	return m_action;
-}
+}*/
 
 void CardAction::executeAction()
 {
-	m_action->execute();
+    //m_action->execute();
 }

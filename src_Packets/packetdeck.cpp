@@ -5,7 +5,7 @@
 PacketDeck::PacketDeck(QList<AbstractCard*> listCards) :
 	AbstractPacket(listCards)
 {
-	
+    mixCards();
 }
 
 PacketDeck::~PacketDeck()
@@ -26,14 +26,14 @@ void PacketDeck::mixCards()
 	
 }
 
-AbsractCard *PacketDeck::drawCard()
+AbstractCard *PacketDeck::drawCard()
 {
-	return m_listCards.takeFirst();
+    return takeACard(0);
 }
 
-QList<AbsractCard*> PacketDeck::drawCards(int count)
+QList<AbstractCard*> PacketDeck::drawCards(int count)
 {
-	QList<Card*> listCards;
+    QList<AbstractCard*> listCards;
 	
 	for(int i=0;i<count;++i)
 	{

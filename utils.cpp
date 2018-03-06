@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "common/database.h"
 
 #include <QFile>
 
@@ -7,14 +8,19 @@ Utils::Utils(QObject *parent) : QObject(parent)
 
 }
 
-AbstractCard* Utils::cardById(unsigned short id)
-{
-
-}
-
 unsigned short Utils::selectFirstPlayer(int count)
 {
     return static_cast<short>(randomValue(0, count));
+}
+
+unsigned short Utils::selectRandomCardsPokemon()
+{
+    return randomValue(0, 11);
+}
+
+unsigned short Utils::selectRandomCardsEnergy()
+{
+    return randomValue(INDEX_START_ENERGIES, INDEX_START_ENERGIES+10);
 }
 
 int Utils::randomValue(int min, int max)

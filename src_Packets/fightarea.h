@@ -6,10 +6,10 @@
 class FightArea : public AbstractPacket
 {
 public:
-    FightArea();
-    virtual ~FightArea(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    FightArea(QList<AbstractCard*> listCards = QList<AbstractCard*>());
+    virtual ~FightArea();
 	
-	int maxCards();
+    int maxCards() override;
 
 private:
 

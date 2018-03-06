@@ -12,9 +12,9 @@ class Utils : public QObject
 public:
     explicit Utils(QObject *parent = nullptr);
 
-    static AbstractCard* cardById(unsigned short id);
-
     static unsigned short selectFirstPlayer(int count);
+    static unsigned short selectRandomCardsPokemon();
+    static unsigned short selectRandomCardsEnergy();
 
 private:
     static int randomValue(int min, int max);

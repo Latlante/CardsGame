@@ -41,7 +41,7 @@ public:
 	const QString name();
 	void setName(const QString& name);
 
-private:
+protected:
 	unsigned short m_id;
 	QString m_name;
 	Enum_typeOfCard m_type;

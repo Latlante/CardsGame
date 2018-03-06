@@ -218,6 +218,13 @@
       </item>
      </layout>
     </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_DrawCards">
+      <property name="text">
+       <string>Distribuer</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>

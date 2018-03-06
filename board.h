@@ -24,6 +24,8 @@ private slots:
     void onCountChanged_Rewards_P2(int count);
     void onCountChanged_Trash_P2(int count);
 
+    void onClicked_pushButton_DrawCards();
+
 private:
     Ui::Board *ui;
     GameManager *m_gameManager;

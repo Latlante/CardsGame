@@ -32,7 +32,7 @@ AbstractCard* Database::cardById(int id)
 
     if ((indexLine >= INDEX_START_POKEMON) && (indexLine < INDEX_START_ENERGIES))
     {
-        cardToReturn = newCardPokemon(id);
+        cardToReturn = newCardPokemon(contenuParLigne[indexLine]);
     }
 
     return cardToReturn;
@@ -59,7 +59,7 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
 
             if (contenuCell != "")
             {
-                listEnergies.insert(indexEnergies, contenuCell.toInt());
+                listEnergies.insert(static_cast<AbstractCard::Enum_element>(indexEnergies), contenuCell.toUShort());
             }
         }
 
@@ -69,7 +69,7 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
 
     return new CardPokemon( arguments[InfoDbPok_Id].toInt(),
                             arguments[InfoDbPok_Name],
-                            static_cast<AbstractCard::Enum_element>(arguments[InfoDbPok_Element]),
+                            static_cast<AbstractCard::Enum_element>(arguments[InfoDbPok_Element].toInt()),
                             arguments[InfoDbPok_Life].toUShort(),
                             listAttacks,
                             arguments[InfoDbPok_IdSubevolution].toShort());
@@ -79,7 +79,8 @@ CardEnergy* Database::newCardEnergy(const QString &infoCsv)
 {
     QStringList arguments = infoCsv.split(";");
 
-    return new CardEnergy(arguments[InfoDbNrj_Id].toInt()-INDEX_START_ENERGIES,
+    return new CardEnergy(arguments[InfoDbNrj_Id].toInt(),
                           arguments[InfoDbNrj_Name],
+                          static_cast<AbstractCard::Enum_element>(arguments[InfoDbNrj_Id].toInt()-INDEX_START_ENERGIES),
                           arguments[InfoDbNrj_Quantity].toUShort());
 }

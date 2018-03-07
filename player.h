@@ -7,6 +7,7 @@ class AbstractCard;
 class CardAction;
 class CardEnergy;
 class CardPokemon;
+class AbstractPacket;
 class PacketDeck;
 class PacketRewards;
 class PacketHand;
@@ -35,9 +36,12 @@ public:
 	void blockPlayer();
     bool isPlaying();
 	void drawOneCard();
+    void attack();
 	bool isWinner();
 
     bool moveCardFromHandToBench(const QModelIndex& index);
+    bool moveCardFromBenchToFight(const QModelIndex& index);
+    bool moveCardFromFightToTrash(const QModelIndex& index);
 
 
 signals:
@@ -54,6 +58,7 @@ private:
 	PacketRewards* m_rewards;
     PacketTrash* m_trash;
 
+    bool moveCardFromPacketToAnother(AbstractPacket* source, AbstractPacket* destination, int index);
 
 };
 

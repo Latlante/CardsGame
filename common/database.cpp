@@ -68,8 +68,6 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
         offset += InfoAtt_COUNT;
     }
 
-    //short idSubevolution =
-
     return new CardPokemon( arguments[InfoDbPok_Id].toInt(),
                             arguments[InfoDbPok_Name],
                             static_cast<AbstractCard::Enum_element>(arguments[InfoDbPok_Element].toInt()),

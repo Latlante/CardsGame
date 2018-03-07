@@ -96,6 +96,8 @@ bool Player::isPlaying()
 
 void Player::drawOneCard()
 {
+    qDebug() << m_name << " - "<< __PRETTY_FUNCTION__;
+
     if (!m_hand->isFull())
     {
         AbstractCard* newCard = m_deck->drawCard();
@@ -108,6 +110,13 @@ void Player::drawOneCard()
     }
 }
 
+void Player::attack()
+{
+    qDebug() << m_name << " - "<< __PRETTY_FUNCTION__;
+
+
+}
+
 bool Player::isWinner()
 {
     return 0 == m_rewards->rowCount();
@@ -117,39 +126,100 @@ bool Player::moveCardFromHandToBench(const QModelIndex &index)
 {
     bool moveSuccess = false;
 
-    //On vérifie qu'il reste de la place sur le banc
-    if (bench()->isFull() == false)
+    AbstractCard* cardToMove = hand()->card(index.row());
+
+    if (cardToMove != NULL)
     {
-        AbstractCard* cardToMove = hand()->takeACard(index.row());
-
-        if (cardToMove != NULL)
+        //On autorise uniquement les cartes de type Pokemon a être posé sur le banc
+        if (cardToMove->type() == AbstractCard::TypeOfCard_Pokemon)
         {
-            //On autorise uniquement les cartes de type Pokemon a être posé sur le banc
-            if (cardToMove->type() == AbstractCard::TypeOfCard_Pokemon)
-            {
-                CardPokemon* cardPok = static_cast<CardPokemon*>(cardToMove);
+            CardPokemon* cardPok = static_cast<CardPokemon*>(cardToMove);
 
-                //On refuse les évolutions
-                if (cardPok->isBase() == true)
-                {
-                    bench()->addNewCard(cardPok);
-                    moveSuccess = true;
-                }
-                qDebug() << __PRETTY_FUNCTION__ << ", cardPok n'est pas une base";
+            //On refuse les évolutions
+            if (cardPok->isBase() == true)
+            {
+                moveSuccess = moveCardFromPacketToAnother(hand(), bench(), index.row());
             }
             else
             {
-                qDebug() << __PRETTY_FUNCTION__ << ", cardToMove n'est pas du bon type:" << cardToMove->type();
+                qDebug() << __PRETTY_FUNCTION__ << ", cardPok n'est pas une base";
             }
         }
         else
         {
-            qDebug() << __PRETTY_FUNCTION__ << ", cardToMove is NULL";
+            qDebug() << __PRETTY_FUNCTION__ << ", cardToMove n'est pas du bon type:" << cardToMove->type();
         }
+    }
+    else
+    {
+        qDebug() << __PRETTY_FUNCTION__ << ", cardToMove is NULL";
+    }
 
-        //Une chose n'allait pas et on retourne la carte sur le paquet d'origine
-        if (moveSuccess == false)
-            hand()->addNewCard(cardToMove);
+    return moveSuccess;
+}
+
+bool Player::moveCardFromBenchToFight(const QModelIndex &index)
+{
+    bool moveSuccess = false;
+
+    AbstractCard* cardToMove = hand()->card(index.row());
+
+    if (cardToMove != NULL)
+    {
+        //On autorise uniquement les cartes de type Pokemon a être posé sur le banc
+        if (cardToMove->type() == AbstractCard::TypeOfCard_Pokemon)
+        {
+            CardPokemon* cardPok = static_cast<CardPokemon*>(cardToMove);
+
+            //On refuse les évolutions
+            if (cardPok->isBase() == true)
+            {
+                moveSuccess = moveCardFromPacketToAnother(bench(), fight(), index.row());
+            }
+            else
+            {
+                qDebug() << __PRETTY_FUNCTION__ << ", cardPok n'est pas une base";
+            }
+        }
+        else
+        {
+            qDebug() << __PRETTY_FUNCTION__ << ", cardToMove n'est pas du bon type:" << cardToMove->type();
+        }
+    }
+    else
+    {
+        qDebug() << __PRETTY_FUNCTION__ << ", cardToMove is NULL";
+    }
+
+    return moveSuccess;
+}
+
+bool Player::moveCardFromFightToTrash(const QModelIndex &index)
+{
+    return moveCardFromPacketToAnother(fight(), trash(), index.row());
+}
+
+/************************************************************
+*****				FONCTIONS PRIVEES					*****
+************************************************************/
+bool Player::moveCardFromPacketToAnother(AbstractPacket *source, AbstractPacket *destination, int index)
+{
+    bool moveSuccess = false;
+
+    if (destination->isFull() == false)
+    {
+        AbstractCard* cardToMove = source->takeACard(index);
+
+        if (cardToMove != NULL)
+        {
+            destination->addNewCard(cardToMove);
+            moveSuccess = true;
+        }
+        else
+        {
+            qCritical() << __PRETTY_FUNCTION__ << "Card is NULL";
+
+        }
     }
 
     return moveSuccess;

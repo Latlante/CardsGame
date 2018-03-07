@@ -57,7 +57,35 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 	return statusBack;
 }
 
-int AbstractPacket::rowCount(const QModelIndex& parent) const
+AbstractCard* AbstractPacket::takeACard(int index)
+{
+    AbstractCard* card = NULL;
+
+    if ((index >= 0) && (index < rowCount()))
+    {
+        beginRemoveRows(QModelIndex(), 0, rowCount());
+        card = m_listCards.takeAt(index);
+        endRemoveRows();
+
+        emit countChanged(rowCount());
+    }
+
+    return card;
+}
+
+AbstractCard* AbstractPacket::card(int index)
+{
+    AbstractCard* card = NULL;
+
+    if ((index >= 0) && (index < rowCount()))
+    {
+        card = m_listCards[index];
+    }
+
+    return card;
+}
+
+int AbstractPacket::rowCount(const QModelIndex&) const
 {
     return m_listCards.count();
 }
@@ -117,22 +145,6 @@ QVariant AbstractPacket::data(const QModelIndex& index, int role) const
 /************************************************************
 *****				FONCTIONS PROTEGEES					*****
 ************************************************************/
-AbstractCard* AbstractPacket::takeACard(int index)
-{
-    AbstractCard* card = NULL;
-
-    if ((index >= 0) && (index < rowCount()))
-    {
-        beginRemoveRows(QModelIndex(), 0, rowCount());
-        card = m_listCards.takeAt(index);
-        endRemoveRows();
-
-        emit countChanged(rowCount());
-    }
-
-    return card;
-}
-
 QHash<int, QByteArray> AbstractPacket::roleNames() const
 {
     QHash<int, QByteArray> roles;

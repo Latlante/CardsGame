@@ -27,6 +27,10 @@ private slots:
 
     void onDClickedCell_Hand_P1(const QModelIndex &index);
     void onDClickedCell_Hand_P2(const QModelIndex &index);
+    void onDClickedCell_Bench_P1(const QModelIndex &index);
+    void onDClickedCell_Bench_P2(const QModelIndex &index);
+    void onDClickedCell_Fight_P1(const QModelIndex &index);
+    void onDClickedCell_Fight_P2(const QModelIndex &index);
 
     void onClicked_pushButton_EndOfTurn();
 

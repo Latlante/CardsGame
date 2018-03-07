@@ -55,7 +55,14 @@ QList<AttackData> CardPokemon::listAttacks()
 
 unsigned short CardPokemon::countEnergies()
 {
-	return m_listEnergies.count();
+    int count = 0;
+
+    foreach (CardEnergy* energy, m_listEnergies)
+    {
+        count += energy->quantity();
+    }
+
+    return count;
 }
 
 unsigned short CardPokemon::countEnergies(Enum_element element)
@@ -65,7 +72,7 @@ unsigned short CardPokemon::countEnergies(Enum_element element)
 	foreach (CardEnergy* energy, m_listEnergies)
 	{
         if (energy->element() == element)
-			count++;
+            count += energy->quantity();
 	}
 	
 	return count;

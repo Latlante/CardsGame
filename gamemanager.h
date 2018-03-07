@@ -22,6 +22,7 @@ public:
     void drawFirstCards(int count);
 	int selectFirstPlayer();
 	void nextPlayer();
+    void attack(Player* playAttacking, Player* playAttacked);
 	void endOfTurn();
 	bool gameIsFinished();
 

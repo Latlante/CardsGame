@@ -28,7 +28,9 @@ Board::Board(QWidget *parent) :
     QList<AbstractCard*> listCards = m_gameManager->chooseCards(nom);
     Player* playerCorentin = m_gameManager->addNewPlayer(nom, listCards);
     ui->listView_BenchArea_P1->setModel(playerCorentin->bench());
+    connect(ui->listView_BenchArea_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Bench_P1);
     ui->listView_FightingArea_P1->setModel(playerCorentin->fight());
+    connect(ui->listView_FightingArea_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Fight_P1);
     ui->listView_Hand_P1->setModel(playerCorentin->hand());
     connect(ui->listView_Hand_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Hand_P1);
     connect(playerCorentin->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P1);
@@ -49,7 +51,9 @@ Board::Board(QWidget *parent) :
     listCards = m_gameManager->chooseCards(nom);
     Player* playerAlice = m_gameManager->addNewPlayer(nom, listCards);
     ui->listView_BenchArea_P2->setModel(playerAlice->bench());
+    connect(ui->listView_BenchArea_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Bench_P2);
     ui->listView_FightingArea_P2->setModel(playerAlice->fight());
+    connect(ui->listView_FightingArea_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Fight_P2);
     ui->listView_Hand_P2->setModel(playerAlice->hand());
     connect(ui->listView_Hand_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Hand_P2);
     connect(playerAlice->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P2);
@@ -141,6 +145,70 @@ void Board::onDClickedCell_Hand_P2(const QModelIndex &index)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de hand vers bench";
         }
+    }
+}
+
+void Board::onDClickedCell_Bench_P1(const QModelIndex &index)
+{
+    qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
+
+    Player* play = findPlayerByWidget(ui->listView_BenchArea_P1);
+
+    if (play != NULL)
+    {
+        if(play->moveCardFromBenchToFight(index) == false)
+        {
+            qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de bench vers fight";
+        }
+    }
+}
+
+void Board::onDClickedCell_Bench_P2(const QModelIndex &index)
+{
+    qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
+
+    Player* play = findPlayerByWidget(ui->listView_BenchArea_P2);
+
+    if (play != NULL)
+    {
+        if(play->moveCardFromBenchToFight(index) == false)
+        {
+            qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de bench vers fight";
+        }
+    }
+}
+
+void Board::onDClickedCell_Fight_P1(const QModelIndex &index)
+{
+    qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
+
+    Player* playAttacking = findPlayerByWidget(ui->listView_FightingArea_P1);
+    Player* playAttacked = findPlayerByWidget(ui->listView_FightingArea_P2);
+
+    if ((playAttacking != NULL) && (playAttacked != NULL))
+    {
+        m_gameManager->attack(playAttacking, playAttacked);
+    }
+    else
+    {
+        qCritical() << __PRETTY_FUNCTION__ << "One of player is NULL";
+    }
+}
+
+void Board::onDClickedCell_Fight_P2(const QModelIndex &index)
+{
+    qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
+
+    Player* playAttacking = findPlayerByWidget(ui->listView_FightingArea_P2);
+    Player* playAttacked = findPlayerByWidget(ui->listView_FightingArea_P1);
+
+    if ((playAttacking != NULL) && (playAttacked != NULL))
+    {
+        m_gameManager->attack(playAttacking, playAttacked);
+    }
+    else
+    {
+        qCritical() << __PRETTY_FUNCTION__ << "One of player is NULL";
     }
 }
 

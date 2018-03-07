@@ -3,6 +3,8 @@
 
 #include "abstractpacket.h"
 
+class CardPokemon;
+
 class FightArea : public AbstractPacket
 {
 public:
@@ -10,6 +12,10 @@ public:
     virtual ~FightArea();
 	
     int maxCards() override;
+
+    CardPokemon* pokemonFighting(int index);
+
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 private:
 

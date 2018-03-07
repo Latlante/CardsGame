@@ -22,9 +22,11 @@ public:
     virtual int maxCards() = 0;
     bool isFull();
 	bool addNewCard(AbstractCard* newCard);
+    AbstractCard* takeACard(int index);
+    AbstractCard* card(int index);
 	
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& = QModelIndex()) const override;
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 signals:
     void countChanged(int);
@@ -32,7 +34,7 @@ signals:
 protected:
 	QList<AbstractCard*> m_listCards;
 
-    virtual AbstractCard* takeACard(int index);
+
 	QHash<int, QByteArray> roleNames() const override;
 
 

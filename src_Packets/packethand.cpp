@@ -17,8 +17,3 @@ int PacketHand::maxCards()
 {
     return 20;
 }
-
-AbstractCard* PacketHand::takeACard(int index)
-{
-    return AbstractPacket::takeACard(index);
-}

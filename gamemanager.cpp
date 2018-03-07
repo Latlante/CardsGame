@@ -2,6 +2,7 @@
 #include "src_Cards/abstractcard.h"
 
 #include <QDebug>
+#include "src_Packets/fightarea.h"
 #include "dlgselectcards.h"
 #include "utils.h"
 
@@ -118,6 +119,14 @@ void GameManager::nextPlayer()
 		m_indexCurrentPlayer = 0;
 		
 	m_listPlayers[m_indexCurrentPlayer]->newTurn();
+}
+
+void GameManager::attack(Player *playAttacking, Player *playAttacked)
+{
+    CardPokemon *pokemonAttacking = playAttacking->fight()->pokemonFighting(0);
+    CardPokemon *pokemonAttacked = playAttacked->fight()->pokemonFighting(0);
+
+    pokemonAttacking->tryToAttack(0, pokemonAttacked);
 }
 
 void GameManager::endOfTurn()

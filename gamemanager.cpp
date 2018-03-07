@@ -126,6 +126,7 @@ void GameManager::attack(Player *playAttacking, Player *playAttacked)
     CardPokemon *pokemonAttacking = playAttacking->fight()->pokemonFighting(0);
     CardPokemon *pokemonAttacked = playAttacked->fight()->pokemonFighting(0);
 
+    qDebug() << __PRETTY_FUNCTION__ << pokemonAttacking->name() << " Attack " << pokemonAttacked->name();
     pokemonAttacking->tryToAttack(0, pokemonAttacked);
 }
 

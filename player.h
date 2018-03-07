@@ -39,7 +39,7 @@ public:
     void attack();
 	bool isWinner();
 
-    bool moveCardFromHandToBench(const QModelIndex& index);
+    bool moveCardFromHandToBench(const QModelIndex& indexHand, const QModelIndex& indexBench);
     bool moveCardFromBenchToFight(const QModelIndex& index);
     bool moveCardFromFightToTrash(const QModelIndex& index);
 

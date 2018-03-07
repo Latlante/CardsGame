@@ -34,6 +34,10 @@ AbstractCard* Database::cardById(int id)
     {
         cardToReturn = newCardPokemon(contenuParLigne[indexLine]);
     }
+    else if ((indexLine >= INDEX_START_ENERGIES) && (indexLine < INDEX_START_ACTION))
+    {
+        cardToReturn = newCardEnergy(contenuParLigne[indexLine]);
+    }
 
     return cardToReturn;
 }

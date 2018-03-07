@@ -122,11 +122,11 @@ bool Player::isWinner()
     return 0 == m_rewards->rowCount();
 }
 
-bool Player::moveCardFromHandToBench(const QModelIndex &index)
+bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelIndex &indexBench)
 {
     bool moveSuccess = false;
 
-    AbstractCard* cardToMove = hand()->card(index.row());
+    AbstractCard* cardToMove = hand()->card(indexHand.row());
 
     if (cardToMove != NULL)
     {
@@ -136,13 +136,34 @@ bool Player::moveCardFromHandToBench(const QModelIndex &index)
             CardPokemon* cardPok = static_cast<CardPokemon*>(cardToMove);
 
             //On refuse les évolutions
-            if (cardPok->isBase() == true)
+            if ((cardPok != NULL) && (cardPok->isBase() == true))
             {
-                moveSuccess = moveCardFromPacketToAnother(hand(), bench(), index.row());
+                moveSuccess = moveCardFromPacketToAnother(hand(), bench(), indexHand.row());
             }
             else
             {
                 qDebug() << __PRETTY_FUNCTION__ << ", cardPok n'est pas une base";
+            }
+        }
+        else if (cardToMove->type() == AbstractCard::TypeOfCard_Energy)
+        {
+            CardEnergy* cardEn = static_cast<CardEnergy*>(cardToMove);
+
+            if (cardEn != NULL)
+            {
+                //On récupére la carte Pokémon a laquelle l'associer
+                AbstractCard* cardToAssociate = bench()->card(indexBench.row());
+
+                if ((cardToAssociate != NULL) && (cardToAssociate->type() == AbstractCard::TypeOfCard_Pokemon))
+                {
+                    CardPokemon* pokemonToAssociate = static_cast<CardPokemon*>(cardToAssociate);
+
+                    if (pokemonToAssociate != NULL)
+                    {
+                        pokemonToAssociate->addEnergy(cardEn);
+                        moveSuccess = true;
+                    }
+                }
             }
         }
         else
@@ -162,7 +183,7 @@ bool Player::moveCardFromBenchToFight(const QModelIndex &index)
 {
     bool moveSuccess = false;
 
-    AbstractCard* cardToMove = hand()->card(index.row());
+    AbstractCard* cardToMove = bench()->card(index.row());
 
     if (cardToMove != NULL)
     {

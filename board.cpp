@@ -125,7 +125,7 @@ void Board::onDClickedCell_Hand_P1(const QModelIndex &index)
 
     if (play != NULL)
     {
-        if(play->moveCardFromHandToBench(index) == false)
+        if(play->moveCardFromHandToBench(index, ui->listView_BenchArea_P1->currentIndex()) == false)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de hand vers bench";
         }
@@ -141,7 +141,7 @@ void Board::onDClickedCell_Hand_P2(const QModelIndex &index)
 
     if (play != NULL)
     {
-        if(play->moveCardFromHandToBench(index) == false)
+        if(play->moveCardFromHandToBench(index, ui->listView_BenchArea_P2->currentIndex()) == false)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de hand vers bench";
         }
@@ -224,7 +224,7 @@ void Board::onClicked_pushButton_EndOfTurn()
 
 void Board::onClicked_pushButton_StartGame()
 {
-    m_gameManager->drawFirstCards(4);
+    m_gameManager->drawFirstCards(10);
     m_gameManager->startGame();
 }
 

@@ -21,7 +21,7 @@ public:
 	
     virtual int maxCards() = 0;
     bool isFull();
-	bool addNewCard(AbstractCard* newCard);
+    virtual bool addNewCard(AbstractCard* newCard);
     AbstractCard* takeACard(int index);
     AbstractCard* card(int index);
 	

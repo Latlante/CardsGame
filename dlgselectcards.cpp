@@ -37,7 +37,19 @@ QList<AbstractCard*> DlgSelectCards::listOfRandomCards()
         listCards.append(db.cardById(idPokemon));
     }
 
-    for(int i=0;i<4;++i)
+    for(int i=0;i<6;++i)
+    {
+        int idEnergy = Utils::selectRandomCardsEnergy();
+        listCards.append(db.cardById(idEnergy));
+    }
+
+    for(int i=0;i<20;++i)
+    {
+        int idPokemon = Utils::selectRandomCardsPokemon();
+        listCards.append(db.cardById(idPokemon));
+    }
+
+    for(int i=0;i<20;++i)
     {
         int idEnergy = Utils::selectRandomCardsEnergy();
         listCards.append(db.cardById(idEnergy));

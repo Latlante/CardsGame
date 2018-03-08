@@ -27,6 +27,11 @@ CONFIG(compilation_test)
     DEFINES += MODE_TEST
 }
 
+CONFIG(tests_unitaire)
+{
+    DEFINES += MODE_TESTS_UNITAIRE
+}
+
 SOURCES += \
         main.cpp \
         board.cpp \
@@ -45,7 +50,8 @@ SOURCES += \
     player.cpp \
     dlgselectcards.cpp \
     utils.cpp \
-    common/database.cpp
+    common/database.cpp \
+    src_Tests/testsunitaires.cpp
 
 HEADERS += \
         board.h \
@@ -64,7 +70,8 @@ HEADERS += \
     player.h \
     dlgselectcards.h \
     utils.h \
-    common/database.h
+    common/database.h \
+    src_Tests/testsunitaires.h
 
 FORMS += \
         board.ui \

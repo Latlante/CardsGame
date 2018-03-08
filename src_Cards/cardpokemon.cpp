@@ -8,7 +8,7 @@ CardPokemon::CardPokemon(unsigned short id,
 			unsigned short lifeTotal,
 			QList<AttackData> listAttacks,
 			short evolutionFrom) :
-	AbstractCard(id, name),
+    AbstractCard(id, name),
 	m_element(element),
 	m_lifeTotal(lifeTotal),
 	m_lifeLeft(lifeTotal),
@@ -30,7 +30,12 @@ CardPokemon::~CardPokemon()
 ************************************************************/
 AbstractCard::Enum_typeOfCard CardPokemon::type()
 {
-	return AbstractCard::TypeOfCard_Pokemon;
+    return AbstractCard::TypeOfCard_Pokemon;
+}
+
+AbstractCard::Enum_element CardPokemon::element()
+{
+    return m_element;
 }
 
 unsigned short CardPokemon::lifeTotal()
@@ -51,6 +56,12 @@ CardPokemon::Enum_statusOfPokemon CardPokemon::status()
 QList<AttackData> CardPokemon::listAttacks()
 {
 	return m_listAttacks;
+}
+
+void CardPokemon::addEnergy(CardEnergy *energy)
+{
+    m_listEnergies.append(energy);
+    emit listEnergiesChanged();
 }
 
 unsigned short CardPokemon::countEnergies()
@@ -78,7 +89,7 @@ unsigned short CardPokemon::countEnergies(Enum_element element)
 	return count;
 }
 
-bool CardPokemon::tryToAttack(int indexAttack, CardPokemon& enemy)
+bool CardPokemon::tryToAttack(int indexAttack, CardPokemon* enemy)
 {
 	bool statusBack = false;
 	
@@ -90,7 +101,7 @@ bool CardPokemon::tryToAttack(int indexAttack, CardPokemon& enemy)
 		if (true == canAttackFromStatus())
 		{
 			AttackData attack = m_listAttacks[indexAttack];
-            enemy.takeDamage(attack.damage);
+            enemy->takeDamage(attack.damage);
 			//attack.action.execute();
 			
 			statusBack = true;
@@ -104,11 +115,11 @@ void CardPokemon::takeDamage(unsigned short damage)
 {
 	if (damage > m_lifeLeft)
 	{
-		m_lifeLeft = 0;
+        setLifeLeft(0);
 	}
 	else
 	{
-		m_lifeLeft -= damage;
+        setLifeLeft(lifeLeft() - damage);
 	}
 }
 
@@ -159,4 +170,25 @@ bool CardPokemon::isSubEvolutionOf(CardPokemon* evolution)
 bool CardPokemon::isEvolutionOf(CardPokemon* evolution)
 {
     return m_evolutionFrom == evolution->m_id;
+}
+
+/************************************************************
+*****				FONCTIONS PUBLIQUES					*****
+************************************************************/
+void CardPokemon::setLifeLeft(unsigned short life)
+{
+    if(m_lifeLeft != life)
+    {
+        m_lifeLeft = life;
+        emit lifeLeftChanged();
+    }
+}
+
+void CardPokemon::setStatus(Enum_statusOfPokemon status)
+{
+    if(m_status != status)
+    {
+        m_status = status;
+        emit statusChanged();
+    }
 }

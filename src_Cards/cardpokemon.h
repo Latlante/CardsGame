@@ -38,15 +38,17 @@ public:
     ~CardPokemon();
 
 	AbstractCard::Enum_typeOfCard type();
+    AbstractCard::Enum_element element();
 	unsigned short lifeTotal();
 	unsigned short lifeLeft();
 	Enum_statusOfPokemon status();
 	QList<AttackData> listAttacks();
 	
+    void addEnergy(CardEnergy* energy);
 	unsigned short countEnergies();
 	unsigned short countEnergies(Enum_element element);
 	
-    bool tryToAttack(int indexAttack, CardPokemon &enemy);
+    bool tryToAttack(int indexAttack, CardPokemon *enemy);
 	void takeDamage(unsigned short damage);
 	bool canAttackFromStatus();
 	bool hasEnoughEnergies(AttackData attack);
@@ -54,6 +56,11 @@ public:
 	bool isBase();
 	bool isSubEvolutionOf(CardPokemon* evolution);
 	bool isEvolutionOf(CardPokemon* evolution);
+
+signals:
+    void lifeLeftChanged();
+    void statusChanged();
+    void listEnergiesChanged();
 
 private:
 	AbstractCard::Enum_element m_element;
@@ -64,6 +71,8 @@ private:
 	QList<CardEnergy*> m_listEnergies;
 	short m_evolutionFrom;
 	
+    void setLifeLeft(unsigned short life);
+    void setStatus(Enum_statusOfPokemon status);
 };
 
 #endif // CARDPOKEMON_H

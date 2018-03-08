@@ -38,13 +38,13 @@ public:
 	
 	virtual Enum_typeOfCard type() = 0;
 	
+    int id();
 	const QString name();
 	void setName(const QString& name);
 
 protected:
 	unsigned short m_id;
 	QString m_name;
-	Enum_typeOfCard m_type;
 };
 
 #endif // ABSTRACTCARD_H

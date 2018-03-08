@@ -50,25 +50,28 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
     int offset = InfoDbPok_Att1;
     for(int i=0;i<3;++i)
     {
-        AttackData attack;
-        attack.name = arguments[offset+InfoAtt_Name];
-        attack.description = arguments[offset+InfoAtt_Description];
-        attack.damage = arguments[offset+InfoAtt_Damage].toInt();
-
-        QMap<AbstractCard::Enum_element, unsigned short> listEnergies;
-        for(int indexEnergies=0;indexEnergies<AbstractCard::Element_COUNT;++indexEnergies)
+        if(arguments[offset+InfoAtt_Name] != "")
         {
-            int indexEnergy = static_cast<int>(InfoAtt_FirstEnergies)+indexEnergies;
-            QString contenuCell = arguments[offset+indexEnergy];
+            AttackData attack;
+            attack.name = arguments[offset+InfoAtt_Name];
+            attack.description = arguments[offset+InfoAtt_Description];
+            attack.damage = arguments[offset+InfoAtt_Damage].toInt();
 
-            if (contenuCell != "")
+            QMap<AbstractCard::Enum_element, unsigned short> listEnergies;
+            for(int indexEnergies=0;indexEnergies<AbstractCard::Element_COUNT;++indexEnergies)
             {
-                listEnergies.insert(static_cast<AbstractCard::Enum_element>(indexEnergies), contenuCell.toUShort());
-            }
-        }
+                int indexEnergy = static_cast<int>(InfoAtt_FirstEnergies)+indexEnergies;
+                QString contenuCell = arguments[offset+indexEnergy];
 
-        attack.costEnergies = listEnergies;
-        listAttacks.append(attack);
+                if (contenuCell != "")
+                {
+                    listEnergies.insert(static_cast<AbstractCard::Enum_element>(indexEnergies), contenuCell.toUShort());
+                }
+            }
+
+            attack.costEnergies = listEnergies;
+            listAttacks.append(attack);
+        }
         offset += InfoAtt_COUNT;
     }
 

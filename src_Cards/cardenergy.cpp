@@ -1,7 +1,7 @@
 #include "cardenergy.h"
 
 CardEnergy::CardEnergy(unsigned short id, const QString& name, AbstractCard::Enum_element element, unsigned short quantity) :
-	AbstractCard(id, name),
+    AbstractCard(id, name),
 	m_element(element),
 	m_quantity(quantity)
 {
@@ -18,7 +18,7 @@ CardEnergy::~CardEnergy()
 ************************************************************/
 AbstractCard::Enum_typeOfCard CardEnergy::type()
 {
-	return AbstractCard::TypeOfCard_Energy;
+    return AbstractCard::TypeOfCard_Energy;
 }
 
 AbstractCard::Enum_element CardEnergy::element()

@@ -1,7 +1,7 @@
 #include "cardaction.h"
 
 CardAction::CardAction(unsigned short id, const QString& name, const QString& description/*, AbstractAction* action*/) :
-	AbstractCard(id, name),
+    AbstractCard(id, name),
     m_description(description)
     //m_action(action)
 {

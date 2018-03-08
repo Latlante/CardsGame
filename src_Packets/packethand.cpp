@@ -15,5 +15,5 @@ PacketHand::~PacketHand()
 ************************************************************/
 int PacketHand::maxCards()
 {
-    return 20;
+    return -1;
 }

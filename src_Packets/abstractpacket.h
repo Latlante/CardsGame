@@ -21,9 +21,10 @@ public:
 	
     virtual int maxCards() = 0;
     bool isFull();
-    virtual bool addNewCard(AbstractCard* newCard);
+    bool addNewCard(AbstractCard* newCard);
     AbstractCard* takeACard(int index);
     AbstractCard* card(int index);
+    bool removeFromPacket(AbstractCard* card);
 	
     int rowCount(const QModelIndex& = QModelIndex()) const override;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -36,6 +37,9 @@ protected:
 
 
 	QHash<int, QByteArray> roleNames() const override;
+
+protected slots:
+    void updateAllData();
 
 
 	

@@ -160,7 +160,11 @@ bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelI
 
                     if (pokemonToAssociate != NULL)
                     {
+                        //On l'associe au Pokémon et on peut la supprimer du paquet d'origine
+                        //pour ne pas l'avoir en doublon
                         pokemonToAssociate->addEnergy(cardEn);
+                        hand()->removeFromPacket(cardEn);
+
                         moveSuccess = true;
                     }
                 }

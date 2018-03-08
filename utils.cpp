@@ -20,7 +20,7 @@ unsigned short Utils::selectRandomCardsPokemon()
 
 unsigned short Utils::selectRandomCardsEnergy()
 {
-    return randomValue(INDEX_START_ENERGIES, INDEX_START_ENERGIES+10);
+    return randomValue(INDEX_START_ENERGIES, INDEX_START_ENERGIES+13);
 }
 
 int Utils::randomValue(int min, int max)

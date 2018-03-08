@@ -1,5 +1,6 @@
 #include "cardpokemon.h"
 
+#include <QDebug>
 #include "cardenergy.h"
 
 CardPokemon::CardPokemon(unsigned short id, 
@@ -62,6 +63,7 @@ void CardPokemon::addEnergy(CardEnergy *energy)
 {
     m_listEnergies.append(energy);
     emit listEnergiesChanged();
+    emit dataChanged();
 }
 
 unsigned short CardPokemon::countEnergies()
@@ -106,7 +108,15 @@ bool CardPokemon::tryToAttack(int indexAttack, CardPokemon* enemy)
 			
 			statusBack = true;
 		}
+        else
+        {
+            qDebug() << name() << " est dans un état empechant d'attaquer";
+        }
 	}
+    else
+    {
+        qDebug() << name() << " n'as pas asser d'énergie";
+    }
 	
 	return statusBack;
 }
@@ -181,6 +191,7 @@ void CardPokemon::setLifeLeft(unsigned short life)
     {
         m_lifeLeft = life;
         emit lifeLeftChanged();
+        emit dataChanged();
     }
 }
 
@@ -190,5 +201,6 @@ void CardPokemon::setStatus(Enum_statusOfPokemon status)
     {
         m_status = status;
         emit statusChanged();
+        emit dataChanged();
     }
 }

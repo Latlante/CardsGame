@@ -22,12 +22,12 @@ TestsUnitaires::TestsUnitaires(QObject *parent) : QObject(parent)
     checkStructCardEnergyByCreatingASpecificOne();
 }
 
-template<typename T>
+/*template<typename T>
 void TestsUnitaires::COMPARE(T arg1, T arg2)
 {
-    /*if(arg1 != arg2)
-        throw "FAILED" <<*/
-}
+    if(arg1 != arg2)
+        throw "FAILED" <<
+}*/
 
 void TestsUnitaires::checkStructCardPokemonByCreatingACustomOne()
 {
@@ -61,20 +61,20 @@ void TestsUnitaires::checkStructCardPokemonByCreatingACustomOne()
                                                  listAttacks);
 
     //Tests
-    Q_ASSERT(customPokemon->id() == pokemonId);
-    Q_ASSERT(customPokemon->name() == pokemonName);
-    Q_ASSERT(customPokemon->type() == AbstractCard::TypeOfCard_Pokemon);
-    Q_ASSERT(customPokemon->element() == pokemonElement);
-    Q_ASSERT(customPokemon->lifeTotal() == pokemonLife);
-    Q_ASSERT(customPokemon->lifeLeft() == pokemonLife);
-    Q_ASSERT(customPokemon->status() == CardPokemon::Status_Normal);
-    Q_ASSERT(customPokemon->isBase() == true);
+    COMPARE(customPokemon->id(), pokemonId);
+    COMPARE(customPokemon->name(), pokemonName);
+    COMPARE(customPokemon->type(), AbstractCard::TypeOfCard_Pokemon);
+    COMPARE(customPokemon->element(), pokemonElement);
+    COMPARE(customPokemon->lifeTotal(), pokemonLife);
+    COMPARE(customPokemon->lifeLeft(), pokemonLife);
+    COMPARE(customPokemon->status(), CardPokemon::Status_Normal);
+    COMPARE(customPokemon->isBase(), true);
 
     QList<AttackData> listAttacksFromCard = customPokemon->listAttacks();
     COMPARE(listAttacksFromCard.count(), 1);
     COMPARE(listAttacksFromCard[0].name, attack1Name);
-    Q_ASSERT(listAttacksFromCard[0].description == attack1Description);
-    Q_ASSERT(listAttacksFromCard[0].damage == attack1Damage);
+    COMPARE(listAttacksFromCard[0].description, attack1Description);
+    COMPARE(listAttacksFromCard[0].damage, attack1Damage);
     Q_ASSERT(listAttacksFromCard[0].costEnergies == costEnergies);
 
     qDebug() << __PRETTY_FUNCTION__ << "OK";
@@ -107,20 +107,20 @@ void TestsUnitaires::checkStructCardPokemonByCreatingASpecificOne()
         if(customPokemon != NULL)
         {
             //Tests
-            Q_ASSERT(customPokemon->id() == pokemonId);
-            Q_ASSERT(customPokemon->name() == pokemonName);
-            Q_ASSERT(customPokemon->type() == AbstractCard::TypeOfCard_Pokemon);
-            Q_ASSERT(customPokemon->element() == pokemonElement);
-            Q_ASSERT(customPokemon->lifeTotal() == pokemonLife);
-            Q_ASSERT(customPokemon->lifeLeft() == pokemonLife);
-            Q_ASSERT(customPokemon->status() == CardPokemon::Status_Normal);
-            Q_ASSERT(customPokemon->isBase() == true);
+            COMPARE(customPokemon->id(), pokemonId);
+            COMPARE(customPokemon->name(), pokemonName);
+            COMPARE(customPokemon->type(), AbstractCard::TypeOfCard_Pokemon);
+            COMPARE(customPokemon->element(), pokemonElement);
+            COMPARE(customPokemon->lifeTotal(), pokemonLife);
+            COMPARE(customPokemon->lifeLeft(), pokemonLife);
+            COMPARE(customPokemon->status(), CardPokemon::Status_Normal);
+            COMPARE(customPokemon->isBase(), true);
 
             QList<AttackData> listAttacksFromCard = customPokemon->listAttacks();
-            Q_ASSERT_X(listAttacksFromCard.count() == 1, __FUNCTION__, QString::number(listAttacksFromCard.count()).toUtf8());
-            Q_ASSERT_X(listAttacksFromCard[0].name == attack1Name, __FUNCTION__, listAttacksFromCard[0].name.toUtf8());
-            Q_ASSERT(listAttacksFromCard[0].description == attack1Description);
-            Q_ASSERT(listAttacksFromCard[0].damage == attack1Damage);
+            COMPARE(listAttacksFromCard.count(), 1);
+            COMPARE(listAttacksFromCard[0].name, attack1Name);
+            COMPARE(listAttacksFromCard[0].description, attack1Description);
+            COMPARE(listAttacksFromCard[0].damage, attack1Damage);
             Q_ASSERT(listAttacksFromCard[0].costEnergies == costEnergies);
 
             qDebug() << __PRETTY_FUNCTION__ << "OK";
@@ -147,11 +147,11 @@ void TestsUnitaires::checkStructCardEnergyByCreatingACustomOne()
                                               energyQuantity);
 
     //Tests
-    Q_ASSERT(customEnergy->id() == energyId);
-    Q_ASSERT(customEnergy->name() == energyName);
-    Q_ASSERT(customEnergy->type() == AbstractCard::TypeOfCard_Energy);
-    Q_ASSERT(customEnergy->element() == energyElement);
-    Q_ASSERT(customEnergy->quantity() == energyQuantity);
+    COMPARE(customEnergy->id(), energyId);
+    COMPARE(customEnergy->name(), energyName);
+    COMPARE(customEnergy->type(), AbstractCard::TypeOfCard_Energy);
+    COMPARE(customEnergy->element(), energyElement);
+    COMPARE(customEnergy->quantity(), energyQuantity);
 
     qDebug() << __PRETTY_FUNCTION__ << "OK";
 }
@@ -175,11 +175,11 @@ void TestsUnitaires::checkStructCardEnergyByCreatingASpecificOne()
         if(customEnergy != NULL)
         {
             //Tests
-            Q_ASSERT(customEnergy->id() == energyId);
-            Q_ASSERT(customEnergy->name() == energyName);
-            Q_ASSERT(customEnergy->type() == AbstractCard::TypeOfCard_Energy);
-            Q_ASSERT(customEnergy->element() == energyElement);
-            Q_ASSERT(customEnergy->quantity() == energyQuantity);
+            COMPARE(customEnergy->id(), energyId);
+            COMPARE(customEnergy->name(), energyName);
+            COMPARE(customEnergy->type(), AbstractCard::TypeOfCard_Energy);
+            COMPARE(customEnergy->element(), energyElement);
+            COMPARE(customEnergy->quantity(), energyQuantity);
 
             qDebug() << __PRETTY_FUNCTION__ << "OK";
         }
@@ -188,4 +188,57 @@ void TestsUnitaires::checkStructCardEnergyByCreatingASpecificOne()
     }
     else
         Q_ASSERT(false);
+}
+
+const char *TestsUnitaires::messageToDisplayInConsole(const char *nameVar, QVariant arg1, QVariant arg2)
+{
+    QString message = "ERROR: " + QString::fromUtf8(nameVar) + " => \"";
+
+    switch(arg1.type())
+    {
+    case QVariant::Bool:
+        message += (arg1.toBool() == true) ? "true" : "false";
+        break;
+    case QVariant::Int:
+        message += QString::number(arg1.toInt());
+        break;
+    case QVariant::UInt:
+        message += QString::number(arg1.toUInt());
+        break;
+    case QVariant::String:
+        message += arg1.toString();
+        break;
+    default:
+        qCritical() << "Type arg1 inconnue:" << arg1.type();
+    }
+
+    message += "\" - \"";
+
+    switch(arg2.type())
+    {
+    case QVariant::Bool:
+        message += (arg2.toBool() == true) ? "true" : "false";
+        break;
+    case QVariant::Int:
+        message += QString::number(arg2.toInt());
+        break;
+    case QVariant::UInt:
+        message += QString::number(arg2.toUInt());
+        break;
+    case QVariant::String:
+        message += arg2.toString();
+        break;
+    default:
+        qCritical() << "Type arg2 inconnue:" << arg2.type();
+    }
+
+    message += "\"";
+
+    QByteArray messageArray = message.toUtf8();
+    const char* messageChar = messageArray.constData();
+    //char* test = messageArray.data();
+
+    qCritical() << message;
+
+    return "e";
 }

@@ -44,9 +44,11 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 	
     if ((NULL != newCard) && (!isFull()))
 	{
-		m_listCards.append(newCard);
         beginInsertRows(QModelIndex(), 0, rowCount());
+		m_listCards.append(newCard);
         endInsertRows();
+
+        connect(newCard, &AbstractCard::dataChanged, this, &AbstractPacket::updateAllData);
 
         qDebug() << __PRETTY_FUNCTION__ << "Carte ajoutée";
 
@@ -83,6 +85,22 @@ AbstractCard* AbstractPacket::card(int index)
     }
 
     return card;
+}
+
+bool AbstractPacket::removeFromPacket(AbstractCard *card)
+{
+    bool removeSuccess = false;
+
+    if(m_listCards.indexOf(card) != -1)
+    {
+        beginRemoveRows(QModelIndex(), 0, rowCount());
+        removeSuccess = m_listCards.removeOne(card);
+        endRemoveRows();
+
+        emit countChanged(rowCount());
+    }
+
+    return removeSuccess;
 }
 
 int AbstractPacket::rowCount(const QModelIndex&) const
@@ -155,4 +173,12 @@ QHash<int, QByteArray> AbstractPacket::roleNames() const
     roles[Role_name] = "name";
 
     return roles;
+}
+
+/************************************************************
+*****			FONCTIONS SLOT PROTEGEES				*****
+************************************************************/
+void AbstractPacket::updateAllData()
+{
+    emit dataChanged(index(0, 0), index(rowCount(), 0));
 }

@@ -15,7 +15,7 @@ struct AttackData
     //AbstractAction* action;
 };
 
-class CardPokemon : public QObject, public AbstractCard
+class CardPokemon : public AbstractCard
 {
 	Q_OBJECT
 	

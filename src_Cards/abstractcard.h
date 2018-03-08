@@ -3,8 +3,9 @@
 
 #include <QObject>
 
-class AbstractCard
+class AbstractCard : public QObject
 {
+    Q_OBJECT
 public:
 	enum Enum_typeOfCard 
 	{
@@ -41,6 +42,9 @@ public:
     int id();
 	const QString name();
 	void setName(const QString& name);
+
+signals:
+    void dataChanged();
 
 protected:
 	unsigned short m_id;

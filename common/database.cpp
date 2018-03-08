@@ -13,7 +13,8 @@ AbstractCard* Database::cardById(int id)
     QFile fichier("database/db.csv");
     fichier.open(QIODevice::ReadOnly | QIODevice::Text);
 
-    QString contenuGeneral = fichier.readAll();
+    QByteArray textFromFile = fichier.readAll();
+    QString contenuGeneral = QString::fromLatin1(textFromFile);
     QStringList contenuParLigne = contenuGeneral.split("\n");
 
     int indexLine = -1;
@@ -30,11 +31,11 @@ AbstractCard* Database::cardById(int id)
     }
 
 
-    if ((indexLine >= INDEX_START_POKEMON) && (indexLine < INDEX_START_ENERGIES))
+    if ((id >= INDEX_START_POKEMON) && (id < INDEX_START_ENERGIES))
     {
         cardToReturn = newCardPokemon(contenuParLigne[indexLine]);
     }
-    else if ((indexLine >= INDEX_START_ENERGIES) && (indexLine < INDEX_START_ACTION))
+    else if ((id >= INDEX_START_ENERGIES) && (id < INDEX_START_ACTION))
     {
         cardToReturn = newCardEnergy(contenuParLigne[indexLine]);
     }

@@ -1,6 +1,7 @@
 #include "abstractcard.h"
 
 AbstractCard::AbstractCard(unsigned short id, const QString& name) :
+    QObject(),
 	m_id(id),
     m_name(name)
 {

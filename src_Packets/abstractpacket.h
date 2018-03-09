@@ -1,11 +1,11 @@
 #ifndef ABSTRACTPACKET_H
 #define ABSTRACTPACKET_H
 
-#include <QAbstractListModel>
+#include <QAbstractTableModel>
 
 class AbstractCard;
 
-class AbstractPacket : public QAbstractListModel
+class AbstractPacket : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -20,14 +20,16 @@ public:
 	static void declareQML();
 	
     virtual int maxCards() = 0;
+    int countCard() const;
     bool isFull();
     bool addNewCard(AbstractCard* newCard);
     AbstractCard* takeACard(int index);
     AbstractCard* card(int index);
     bool removeFromPacket(AbstractCard* card);
 	
-    int rowCount(const QModelIndex& = QModelIndex()) const override;
+    int columnCount(const QModelIndex & = QModelIndex()) const override;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex& index = QModelIndex()) const override;
 
 signals:
     void countChanged(int);

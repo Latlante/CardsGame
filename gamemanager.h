@@ -13,11 +13,16 @@ class GameManager : public QObject
 public:
 	GameManager(QObject *parent = NULL);
 	~GameManager();
+
+    static GameManager* createInstance();
+    static void deleteInstance();
+    static GameManager* instance();
 	
 	void initGame();
 	QList<AbstractCard*> chooseCards(const QString& name);
     Player* addNewPlayer(QString name, QList<AbstractCard*> listCards);
     Player* currentPlayer();
+    Player* playerAttacked();
     void startGame();
     void drawFirstCards(int count);
 	int selectFirstPlayer();
@@ -31,6 +36,7 @@ private slots:
     void onEndOfTurn_Player();
 
 private:
+    GameManager *m_instance;
 	QList<Player*> m_listPlayers;
 	unsigned short m_indexCurrentPlayer;
 	

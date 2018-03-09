@@ -16,7 +16,7 @@
 Board::Board(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Board),
-    m_gameManager(new GameManager())
+    m_gameManager(GameManager::createInstance())
 {
     ui->setupUi(this);
 
@@ -39,7 +39,7 @@ Board::Board(QWidget *parent) :
 
     connect(ui->pushButton_EndOfTurn_P1, &QPushButton::clicked, this, &Board::onClicked_pushButton_EndOfTurn);
 
-    ui->label_Deck_P1->setText(QString::number(playerCorentin->deck()->rowCount()));
+    ui->label_Deck_P1->setText(QString::number(playerCorentin->deck()->countCard()));
 
     m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_BenchArea_P1);
     m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_FightingArea_P1);
@@ -62,7 +62,7 @@ Board::Board(QWidget *parent) :
 
     connect(ui->pushButton_EndOfTurn_P2, &QPushButton::clicked, this, &Board::onClicked_pushButton_EndOfTurn);
 
-    ui->label_Deck_P2->setText(QString::number(playerAlice->deck()->rowCount()));
+    ui->label_Deck_P2->setText(QString::number(playerAlice->deck()->countCard()));
 
     m_listWidgetsByPlayer.insert(playerAlice, ui->listView_BenchArea_P2);
     m_listWidgetsByPlayer.insert(playerAlice, ui->listView_FightingArea_P2);
@@ -81,7 +81,7 @@ Board::Board(QWidget *parent) :
 Board::~Board()
 {
     delete ui;
-    delete m_gameManager;
+    GameManager::deleteInstance();
 }
 
 /************************************************************

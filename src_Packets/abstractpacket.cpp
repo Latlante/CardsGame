@@ -2,9 +2,10 @@
 
 #include <QDebug>
 #include "src_Cards/abstractcard.h"
+#include "src_Cards/cardpokemon.h"
 
 AbstractPacket::AbstractPacket(QList<AbstractCard*> listCards) :
-    QAbstractListModel(NULL),
+    QAbstractTableModel(NULL),
 	m_listCards(listCards)
 {
 	
@@ -27,11 +28,16 @@ void AbstractPacket::declareQML()
     //qmlRegisterUncreatableType<AbstractPacket>("com.gui", 1, 0, "FMUnfinishedTransactionListModel", "ItemType FMUnfinishedTransactionListModel cannot be created.");
 }
 
+int AbstractPacket::countCard() const
+{
+    return columnCount();
+}
+
 bool AbstractPacket::isFull()
 {
     bool full = false;
 
-    if ((maxCards() >= 0) && (rowCount() >= maxCards()))
+    if ((maxCards() >= 0) && (countCard() >= maxCards()))
         full = true;
 
     return full;
@@ -44,7 +50,7 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 	
     if ((NULL != newCard) && (!isFull()))
 	{
-        beginInsertRows(QModelIndex(), 0, rowCount());
+        beginInsertRows(QModelIndex(), 0, countCard());
 		m_listCards.append(newCard);
         endInsertRows();
 
@@ -52,7 +58,7 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 
         qDebug() << __PRETTY_FUNCTION__ << "Carte ajoutée";
 
-        emit countChanged(rowCount());
+        emit countChanged(countCard());
 		statusBack = true;
 	}
 	
@@ -63,13 +69,13 @@ AbstractCard* AbstractPacket::takeACard(int index)
 {
     AbstractCard* card = NULL;
 
-    if ((index >= 0) && (index < rowCount()))
+    if ((index >= 0) && (index < countCard()))
     {
-        beginRemoveRows(QModelIndex(), 0, rowCount());
+        beginRemoveRows(QModelIndex(), 0, countCard());
         card = m_listCards.takeAt(index);
         endRemoveRows();
 
-        emit countChanged(rowCount());
+        emit countChanged(countCard());
     }
 
     return card;
@@ -79,7 +85,7 @@ AbstractCard* AbstractPacket::card(int index)
 {
     AbstractCard* card = NULL;
 
-    if ((index >= 0) && (index < rowCount()))
+    if ((index >= 0) && (index < countCard()))
     {
         card = m_listCards[index];
     }
@@ -93,60 +99,25 @@ bool AbstractPacket::removeFromPacket(AbstractCard *card)
 
     if(m_listCards.indexOf(card) != -1)
     {
-        beginRemoveRows(QModelIndex(), 0, rowCount());
+        beginRemoveRows(QModelIndex(), 0, countCard());
         removeSuccess = m_listCards.removeOne(card);
         endRemoveRows();
 
-        emit countChanged(rowCount());
+        emit countChanged(countCard());
     }
 
     return removeSuccess;
 }
 
-int AbstractPacket::rowCount(const QModelIndex&) const
+int AbstractPacket::columnCount(const QModelIndex &) const
 {
     return m_listCards.count();
 }
 
 QVariant AbstractPacket::data(const QModelIndex& index, int role) const
 {
-    //qDebug() << __PRETTY_FUNCTION__ << ", index: " << index << ", role: " << role;
-
-    /*int iRow = index.row();
-    if (iRow < 0 || iRow >= m_listUnfinishedTransaction.count())
-    {
-        qCritical() << __METHOD_NAME__ << "bad row num : " << iRow;
-        return QVariant();
-    }
-
-    FMUnfinishedTransaction* pTransaction = m_listUnfinishedTransaction[iRow];
-    if (NULL != pTransaction)
-    {
-        if (TRANSACTION_TARGET_SN == role)
-        {
-            return QString::number(pTransaction->getSerialNumberTarget());
-        }
-        else if (TRANSACTION_SOURCE_SN == role)
-        {
-            return QString::number(pTransaction->getSerialNumberSource());
-        }
-        else if (TRANSACTION_NUMBER_OF_UV == role)
-        {
-            return pTransaction->getNumberOfUV();
-        }
-        else if (TRANSACTION_STATUS == role)
-        {
-            return pTransaction->getTransactionStatusAsString();
-        }
-    }
-    else
-    {
-        qCritical() << __METHOD_NAME__ << "Transaction is null.";
-        return QVariant();
-    }*/
-
     int iRow = index.row();
-    if (iRow < 0 || iRow >= rowCount())
+    if (iRow < 0 || iRow >= countCard())
     {
         qCritical() << __PRETTY_FUNCTION__ << "bad row num : " << iRow;
         return QVariant();
@@ -158,6 +129,28 @@ QVariant AbstractPacket::data(const QModelIndex& index, int role) const
     }
 
     return QVariant::Invalid;
+}
+
+int AbstractPacket::rowCount(const QModelIndex& index) const
+{
+    int rows = 0;
+
+    if((index.column() >= 0) && (index.column() < columnCount()))
+    {
+        AbstractCard* abCard = m_listCards[index.column()];
+
+        if(abCard->type() == AbstractCard::TypeOfCard_Energy)
+        {
+            rows = 2;   //Nom + élément
+        }
+        else if(abCard->type() == AbstractCard::TypeOfCard_Pokemon)
+        {
+            CardPokemon* pokemon = static_cast<CardPokemon*>(abCard);
+            rows = 1 /*Nom du pokemon*/ + pokemon->listAttacks().count();
+        }
+    }
+
+    return rows;
 }
 
 /************************************************************
@@ -180,5 +173,5 @@ QHash<int, QByteArray> AbstractPacket::roleNames() const
 ************************************************************/
 void AbstractPacket::updateAllData()
 {
-    emit dataChanged(index(0, 0), index(rowCount(), 0));
+    emit dataChanged(index(0, 0), index(rowCount(), columnCount()));
 }

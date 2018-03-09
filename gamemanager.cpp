@@ -8,6 +8,7 @@
 
 GameManager::GameManager(QObject *parent) :
 	QObject(parent),
+    m_instance(NULL),
 	m_listPlayers(QList<Player*>()),
 	m_indexCurrentPlayer(0),
 	m_gameIsReady(false)
@@ -18,6 +19,31 @@ GameManager::GameManager(QObject *parent) :
 GameManager::~GameManager()
 {
 	
+}
+
+/************************************************************
+*****				FONCTIONS STATIQUES					*****
+************************************************************/
+GameManager* GameManager::createInstance()
+{
+    if(m_instance == NULL)
+    {
+        m_instance = new GameManager();
+    }
+}
+
+void GameManager::deleteInstance()
+{
+    if(m_instance != NULL)
+    {
+        delete m_instance;
+        m_instance = NULL;
+    }
+}
+
+GameManager* GameManager::instance()
+{
+    return m_instance;
 }
 
 /************************************************************
@@ -79,6 +105,22 @@ Player* GameManager::currentPlayer()
     foreach(Player *play, m_listPlayers)
     {
         if (true == play->isPlaying())
+        {
+            playerPlaying = play;
+            break;
+        }
+    }
+
+    return playerPlaying;
+}
+
+Player* GameManager::playerAttacked()
+{
+    Player* playerPlaying = NULL;
+
+    foreach(Player *play, m_listPlayers)
+    {
+        if (false == play->isPlaying())
         {
             playerPlaying = play;
             break;

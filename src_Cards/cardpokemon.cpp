@@ -1,6 +1,7 @@
 #include "cardpokemon.h"
 
 #include <QDebug>
+#include "src_Actions/abstractaction.h"
 #include "cardenergy.h"
 
 CardPokemon::CardPokemon(unsigned short id, 

@@ -4,6 +4,8 @@
 #include "abstractcard.h"
 
 #include <QMap>
+
+class AbstractAction;
 class CardEnergy;
 
 struct AttackData
@@ -12,7 +14,7 @@ struct AttackData
 	QString description;
 	unsigned short damage;
     QMap<AbstractCard::Enum_element, unsigned short> costEnergies;
-    //AbstractAction* action;
+    AbstractAction* action;
 };
 
 class CardPokemon : public AbstractCard

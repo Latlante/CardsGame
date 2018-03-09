@@ -29,7 +29,7 @@ CONFIG(compilation_test)
 
 CONFIG(tests_unitaire)
 {
-    DEFINES += MODE_TESTS_UNITAIRE
+    #DEFINES += MODE_TESTS_UNITAIRE
 }
 
 SOURCES += \
@@ -51,7 +51,14 @@ SOURCES += \
     dlgselectcards.cpp \
     utils.cpp \
     common/database.cpp \
-    src_Tests/testsunitaires.cpp
+    src_Tests/testsunitaires.cpp \
+    src_Actions/abstractaction.cpp \
+    src_Actions/actionchangeenemystatus.cpp \
+    src_Actions/actionchangeenemystatusrandom.cpp \
+    src_Actions/actionremoveenergyattached.cpp \
+    src_Actions/actionhealing.cpp \
+    src_Actions/actionprotectedagainstdamage.cpp \
+    src_Actions/actionmoredamagebyenergy.cpp
 
 HEADERS += \
         board.h \
@@ -71,7 +78,14 @@ HEADERS += \
     dlgselectcards.h \
     utils.h \
     common/database.h \
-    src_Tests/testsunitaires.h
+    src_Tests/testsunitaires.h \
+    src_Actions/abstractaction.h \
+    src_Actions/actionchangeenemystatus.h \
+    src_Actions/actionchangeenemystatusrandom.h \
+    src_Actions/actionremoveenergyattached.h \
+    src_Actions/actionhealing.h \
+    src_Actions/actionprotectedagainstdamage.h \
+    src_Actions/actionmoredamagebyenergy.h
 
 FORMS += \
         board.ui \

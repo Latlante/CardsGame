@@ -119,7 +119,7 @@ void Player::attack()
 
 bool Player::isWinner()
 {
-    return 0 == m_rewards->rowCount();
+    return 0 == m_rewards->countCard();
 }
 
 bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelIndex &indexBench)

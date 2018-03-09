@@ -39,7 +39,7 @@ CardPokemon* FightArea::pokemonFighting(int index)
 QVariant FightArea::data(const QModelIndex& index, int role) const
 {
     int iRow = index.row();
-    if (iRow < 0 || iRow >= rowCount())
+    if (iRow < 0 || iRow >= countCard())
     {
         qCritical() << __PRETTY_FUNCTION__ << "bad row num : " << iRow;
         return QVariant();

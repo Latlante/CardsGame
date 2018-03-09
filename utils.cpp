@@ -8,6 +8,11 @@ Utils::Utils(QObject *parent) : QObject(parent)
 
 }
 
+unsigned short Utils::headOrTail()
+{
+    return static_cast<short>(randomValue(0, 1));
+}
+
 unsigned short Utils::selectFirstPlayer(int count)
 {
     return static_cast<short>(randomValue(0, count));

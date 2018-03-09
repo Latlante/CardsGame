@@ -12,6 +12,7 @@ class Utils : public QObject
 public:
     explicit Utils(QObject *parent = nullptr);
 
+    static unsigned short headOrTail();
     static unsigned short selectFirstPlayer(int count);
     static unsigned short selectRandomCardsPokemon();
     static unsigned short selectRandomCardsEnergy();

@@ -1,7 +1,7 @@
 #include "actionmoredamagebyenergy.h"
 
-ActionMoreDamageByEnergy::ActionMoreDamageByEnergy(unsigned short id, const QString &name, unsigned short damageByEnergy) :
-    AbstractAction(id, name),
+ActionMoreDamageByEnergy::ActionMoreDamageByEnergy(unsigned short damageByEnergy) :
+    AbstractAction(),
     m_damageByEnergy(damageByEnergy)
 {
 

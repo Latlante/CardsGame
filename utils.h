@@ -3,9 +3,6 @@
 
 #include <QObject>
 
-#include "src_Cards/cardenergy.h"
-#include "src_Cards/cardpokemon.h"
-
 class Utils : public QObject
 {
     Q_OBJECT

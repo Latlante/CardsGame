@@ -1,6 +1,8 @@
 #include "database.h"
 
 #include <QFile>
+#include <QVariant>
+#include "src_Actions/actioncreationfactory.h"
 
 Database::Database(QObject *parent) : QObject(parent)
 {
@@ -71,6 +73,9 @@ CardPokemon* Database::newCardPokemon(const QString& infoCsv)
             }
 
             attack.costEnergies = listEnergies;
+            bool ok;
+            int idAction = arguments[offset+InfoAtt_ActionType].toInt(&ok);
+            attack.action = ActionCreationFactory::createAction(static_cast<AbstractAction::Enum_typeOfAction>(idAction), QVariant::fromValue(arguments[offset+InfoAtt_ActionArgument]));
             listAttacks.append(attack);
         }
         offset += InfoAtt_COUNT;

@@ -6,7 +6,7 @@
 class ActionMoreDamageByEnergy : public AbstractAction
 {
 public:
-    ActionMoreDamageByEnergy(unsigned short id, const QString& name, unsigned short damageByEnergy);
+    ActionMoreDamageByEnergy(unsigned short damageByEnergy);
 
     AbstractAction::Enum_typeOfAction type() override;
     void executeAction() override;

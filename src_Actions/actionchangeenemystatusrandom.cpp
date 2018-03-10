@@ -1,10 +1,11 @@
 #include "actionchangeenemystatusrandom.h"
 
+#include <QDebug>
 #include "gamemanager.h"
 #include "src_Packets/fightarea.h"
 
-ActionChangeEnemyStatusRandom::ActionChangeEnemyStatusRandom(unsigned short id, const QString &name, CardPokemon::Enum_statusOfPokemon status) :
-    AbstractAction(id, name),
+ActionChangeEnemyStatusRandom::ActionChangeEnemyStatusRandom(CardPokemon::Enum_statusOfPokemon status) :
+    AbstractAction(),
     m_status(status)
 {
 

@@ -6,7 +6,7 @@
 class ActionProtectedAgainstDamage : public AbstractAction
 {
 public:
-    ActionProtectedAgainstDamage(unsigned short id, const QString& name);
+    ActionProtectedAgainstDamage();
 
     AbstractAction::Enum_typeOfAction type() override;
     void executeAction() override;

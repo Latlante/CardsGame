@@ -6,7 +6,7 @@
 class ActionRemoveEnergyAttached : public AbstractAction
 {
 public:
-    ActionRemoveEnergyAttached(unsigned short id, const QString& name, unsigned short numberOfEnergiesToRemoved);
+    ActionRemoveEnergyAttached(unsigned short numberOfEnergiesToRemoved);
 
     AbstractAction::Enum_typeOfAction type() override;
     void executeAction() override;

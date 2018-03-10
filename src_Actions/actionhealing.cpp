@@ -2,8 +2,8 @@
 
 #include "gamemanager.h"
 
-ActionHealing::ActionHealing(unsigned short id, const QString &name, unsigned short pv) :
-    AbstractAction(id, name),
+ActionHealing::ActionHealing(unsigned short pv) :
+    AbstractAction(),
     m_pv(pv)
 {
 

@@ -1,7 +1,7 @@
 #include "actionprotectedagainstdamage.h"
 
-ActionProtectedAgainstDamage::ActionProtectedAgainstDamage(unsigned short id, const QString &name) :
-    AbstractAction(id, name)
+ActionProtectedAgainstDamage::ActionProtectedAgainstDamage() :
+    AbstractAction()
 {
 
 }

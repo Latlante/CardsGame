@@ -2,8 +2,8 @@
 
 #include "gamemanager.h"
 
-ActionRemoveEnergyAttached::ActionRemoveEnergyAttached(unsigned short id, const QString &name, unsigned short numberOfEnergiesToRemoved) :
-    AbstractAction(id, name),
+ActionRemoveEnergyAttached::ActionRemoveEnergyAttached(unsigned short numberOfEnergiesToRemoved) :
+    AbstractAction(),
     m_numberOfEnergiesToRemoved(numberOfEnergiesToRemoved)
 {
 

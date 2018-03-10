@@ -1,10 +1,11 @@
 #include "actionchangeenemystatus.h"
 
+#include <QDebug>
 #include "gamemanager.h"
 #include "src_Packets/fightarea.h"
 
-ActionChangeEnemyStatus::ActionChangeEnemyStatus(unsigned short id, const QString &name, CardPokemon::Enum_statusOfPokemon status) :
-    AbstractAction(id, name),
+ActionChangeEnemyStatus::ActionChangeEnemyStatus(CardPokemon::Enum_statusOfPokemon status) :
+    AbstractAction(),
     m_status(status)
 {
 

@@ -17,7 +17,7 @@ public:
 		Action_MoreDamageByEnergy = 6
     };
 
-    AbstractAction(unsigned short id, const QString& name);
+    AbstractAction();
     virtual ~AbstractAction();
 	
     virtual Enum_typeOfAction type() = 0;
@@ -28,8 +28,6 @@ public:
 	void setName(const QString& name);
 
 private:
-	unsigned short m_id;
-	QString m_name;
 };
 
 #endif // ABSTRACTACTION_H

@@ -58,7 +58,8 @@ SOURCES += \
     src_Actions/actionremoveenergyattached.cpp \
     src_Actions/actionhealing.cpp \
     src_Actions/actionprotectedagainstdamage.cpp \
-    src_Actions/actionmoredamagebyenergy.cpp
+    src_Actions/actionmoredamagebyenergy.cpp \
+    src_Actions/actioncreationfactory.cpp
 
 HEADERS += \
         board.h \
@@ -85,7 +86,8 @@ HEADERS += \
     src_Actions/actionremoveenergyattached.h \
     src_Actions/actionhealing.h \
     src_Actions/actionprotectedagainstdamage.h \
-    src_Actions/actionmoredamagebyenergy.h
+    src_Actions/actionmoredamagebyenergy.h \
+    src_Actions/actioncreationfactory.h
 
 FORMS += \
         board.ui \

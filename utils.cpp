@@ -1,8 +1,6 @@
 #include "utils.h"
 #include "common/database.h"
 
-#include <QFile>
-
 Utils::Utils(QObject *parent) : QObject(parent)
 {
 

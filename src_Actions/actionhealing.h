@@ -6,7 +6,7 @@
 class ActionHealing : public AbstractAction
 {
 public:
-    ActionHealing(unsigned short id, const QString& name, unsigned short pv);
+    ActionHealing(unsigned short pv);
 
     AbstractAction::Enum_typeOfAction type() override;
     void executeAction() override;

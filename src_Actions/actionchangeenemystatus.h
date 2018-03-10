@@ -8,7 +8,7 @@
 class ActionChangeEnemyStatus : public AbstractAction
 {
 public:
-    explicit ActionChangeEnemyStatus(unsigned short id, const QString& name, CardPokemon::Enum_statusOfPokemon status);
+    explicit ActionChangeEnemyStatus(CardPokemon::Enum_statusOfPokemon status);
 
     AbstractAction::Enum_typeOfAction type() override;
     void executeAction() override;

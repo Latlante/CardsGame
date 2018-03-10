@@ -44,6 +44,7 @@ public:
 	unsigned short lifeTotal();
 	unsigned short lifeLeft();
 	Enum_statusOfPokemon status();
+    void setStatus(Enum_statusOfPokemon status);
 	QList<AttackData> listAttacks();
 	
     void addEnergy(CardEnergy* energy);
@@ -74,7 +75,7 @@ private:
 	short m_evolutionFrom;
 	
     void setLifeLeft(unsigned short life);
-    void setStatus(Enum_statusOfPokemon status);
+
 };
 
 #endif // CARDPOKEMON_H

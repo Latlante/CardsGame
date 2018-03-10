@@ -1,14 +1,17 @@
 #include "gamemanager.h"
-#include "src_Cards/abstractcard.h"
 
 #include <QDebug>
+#include "src_Cards/abstractcard.h"
+#include "src_Cards/cardpokemon.h"
 #include "src_Packets/fightarea.h"
 #include "dlgselectcards.h"
 #include "utils.h"
 
+const int GameManager::m_NUMBER_FIRST_CARDS = 10;
+GameManager* GameManager::m_instance = NULL;
+
 GameManager::GameManager(QObject *parent) :
 	QObject(parent),
-    m_instance(NULL),
 	m_listPlayers(QList<Player*>()),
 	m_indexCurrentPlayer(0),
 	m_gameIsReady(false)
@@ -30,6 +33,8 @@ GameManager* GameManager::createInstance()
     {
         m_instance = new GameManager();
     }
+
+    return m_instance;
 }
 
 void GameManager::deleteInstance()
@@ -135,17 +140,16 @@ void GameManager::startGame()
     onEndOfTurn_Player();
 }
 
-void GameManager::drawFirstCards(int count)
+void GameManager::drawFirstCards()
 {
-    qDebug() << "count Players:" << m_listPlayers.count();
+    //qDebug() << "count Players:" << m_listPlayers.count();
     foreach(Player *play, m_listPlayers)
     {
-        for(int i=0;i<count;++i)
+        for(int i=0;i<m_NUMBER_FIRST_CARDS;++i)
         {
             play->drawOneCard();
         }
     }
-
 }
 
 int GameManager::selectFirstPlayer()

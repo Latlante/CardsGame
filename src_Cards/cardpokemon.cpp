@@ -55,6 +55,16 @@ CardPokemon::Enum_statusOfPokemon CardPokemon::status()
 	return m_status;
 }
 
+void CardPokemon::setStatus(Enum_statusOfPokemon status)
+{
+    if(m_status != status)
+    {
+        m_status = status;
+        emit statusChanged();
+        emit dataChanged();
+    }
+}
+
 QList<AttackData> CardPokemon::listAttacks()
 {
 	return m_listAttacks;
@@ -105,7 +115,9 @@ bool CardPokemon::tryToAttack(int indexAttack, CardPokemon* enemy)
 		{
 			AttackData attack = m_listAttacks[indexAttack];
             enemy->takeDamage(attack.damage);
-			//attack.action.execute();
+
+            if(attack.action != NULL)
+                attack.action->executeAction();
 			
 			statusBack = true;
 		}
@@ -192,16 +204,6 @@ void CardPokemon::setLifeLeft(unsigned short life)
     {
         m_lifeLeft = life;
         emit lifeLeftChanged();
-        emit dataChanged();
-    }
-}
-
-void CardPokemon::setStatus(Enum_statusOfPokemon status)
-{
-    if(m_status != status)
-    {
-        m_status = status;
-        emit statusChanged();
         emit dataChanged();
     }
 }

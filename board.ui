@@ -28,7 +28,7 @@
      <number>2</number>
     </property>
     <item>
-     <layout class="QVBoxLayout" name="layout_PlayerArea_P2" stretch="0,2,1">
+     <layout class="QVBoxLayout" name="layout_PlayerArea_P2" stretch="0,0,0,1">
       <item>
        <widget class="QPushButton" name="pushButton_EndOfTurn_P2">
         <property name="text">
@@ -37,14 +37,10 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QListView" name="listView_Hand_P2"/>
-        </item>
-        <item>
-         <widget class="QListView" name="listView_BenchArea_P2"/>
-        </item>
-       </layout>
+       <widget class="QTableView" name="tableView_Hand_P2"/>
+      </item>
+      <item>
+       <widget class="QTableView" name="tableView_BenchArea_P2"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -134,7 +130,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QVBoxLayout" name="layout_PlayerArea_P1" stretch="1,2,0">
+     <layout class="QVBoxLayout" name="layout_PlayerArea_P1" stretch="1,0,0,0">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -214,14 +210,10 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QListView" name="listView_Hand_P1"/>
-        </item>
-        <item>
-         <widget class="QListView" name="listView_BenchArea_P1"/>
-        </item>
-       </layout>
+       <widget class="QTableView" name="tableView_BenchArea_P1"/>
+      </item>
+      <item>
+       <widget class="QTableView" name="tableView_Hand_P1"/>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_EndOfTurn_P1">

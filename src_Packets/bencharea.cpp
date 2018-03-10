@@ -24,16 +24,19 @@ int BenchArea::maxCards()
 
 QVariant BenchArea::data(const QModelIndex& index, int role) const
 {
+    //qDebug() << __PRETTY_FUNCTION__ << index << role;
+
     int iRow = index.row();
-    if (iRow < 0 || iRow >= countCard())
+    int iColumn = index.column();
+    if ((iRow < 0) || (iRow >= rowCount()) || (iColumn < 0) || (iColumn >= columnCount()))
     {
-        qCritical() << __PRETTY_FUNCTION__ << "bad row num : " << iRow;
+        qCritical() << __PRETTY_FUNCTION__ << "bad column num : " << iRow;
         return QVariant();
     }
 
     if (Qt::DisplayRole == role)
     {
-        AbstractCard* abCard = m_listCards[index.row()];
+        AbstractCard* abCard = m_listCards[iColumn];
 
         if (abCard != NULL)
         {
@@ -41,11 +44,23 @@ QVariant BenchArea::data(const QModelIndex& index, int role) const
             {
                 CardPokemon *cardPok = static_cast<CardPokemon*>(abCard);
 
-                QString messageToDisplay = cardPok->name();
+                switch(iRow)
+                {
+                case 0: //Nom du pokemon
+                    return cardPok->name();
+                case 1: //Vie restante et total
+                    return QString::number(cardPok->lifeLeft()) + "/" + QString::number(cardPok->lifeTotal());
+                case 2: //Energies
+                    return "Energies=" + QString::number(cardPok->countEnergies());
+                default:
+                    break;
+                }
+
+                /*QString messageToDisplay = cardPok->name();
                 messageToDisplay += " (" + QString::number(cardPok->lifeLeft()) + "/" + QString::number(cardPok->lifeTotal()) + ")";
                 messageToDisplay += " : Energies=" + QString::number(cardPok->countEnergies());
 
-                return messageToDisplay;
+                return messageToDisplay;*/
             }
             else
             {

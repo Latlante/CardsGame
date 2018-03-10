@@ -3,12 +3,12 @@
 #include <QDebug>
 #include "src_Cards/abstractcard.h"
 #include "src_Cards/cardpokemon.h"
+#include "src_Cards/cardenergy.h"
 
 AbstractPacket::AbstractPacket(QList<AbstractCard*> listCards) :
     QAbstractTableModel(NULL),
 	m_listCards(listCards)
 {
-	
 }
 
 AbstractPacket::~AbstractPacket()
@@ -45,18 +45,18 @@ bool AbstractPacket::isFull()
 
 bool AbstractPacket::addNewCard(AbstractCard* newCard)
 {
-    qDebug() << __PRETTY_FUNCTION__;
+    //qDebug() << __PRETTY_FUNCTION__;
 	bool statusBack = false;
 	
     if ((NULL != newCard) && (!isFull()))
 	{
-        beginInsertRows(QModelIndex(), 0, countCard());
+        beginInsertColumns(QModelIndex(), 0, columnCount());
 		m_listCards.append(newCard);
-        endInsertRows();
+        endInsertColumns();
 
         connect(newCard, &AbstractCard::dataChanged, this, &AbstractPacket::updateAllData);
 
-        qDebug() << __PRETTY_FUNCTION__ << "Carte ajoutée";
+        //qDebug() << __PRETTY_FUNCTION__ << "Carte ajoutée";
 
         emit countChanged(countCard());
 		statusBack = true;
@@ -71,9 +71,9 @@ AbstractCard* AbstractPacket::takeACard(int index)
 
     if ((index >= 0) && (index < countCard()))
     {
-        beginRemoveRows(QModelIndex(), 0, countCard());
+        beginRemoveColumns(QModelIndex(), 0, columnCount());
         card = m_listCards.takeAt(index);
-        endRemoveRows();
+        endRemoveColumns();
 
         emit countChanged(countCard());
     }
@@ -99,9 +99,9 @@ bool AbstractPacket::removeFromPacket(AbstractCard *card)
 
     if(m_listCards.indexOf(card) != -1)
     {
-        beginRemoveRows(QModelIndex(), 0, countCard());
+        beginRemoveColumns(QModelIndex(), 0, columnCount());
         removeSuccess = m_listCards.removeOne(card);
-        endRemoveRows();
+        endRemoveColumns();
 
         emit countChanged(countCard());
     }
@@ -111,21 +111,77 @@ bool AbstractPacket::removeFromPacket(AbstractCard *card)
 
 int AbstractPacket::columnCount(const QModelIndex &) const
 {
+    //qDebug() << __PRETTY_FUNCTION__ << m_listCards.count();
     return m_listCards.count();
 }
 
 QVariant AbstractPacket::data(const QModelIndex& index, int role) const
 {
+    //qDebug() << __PRETTY_FUNCTION__ << index << role;
     int iRow = index.row();
-    if (iRow < 0 || iRow >= countCard())
+    int iColumn = index.column();
+    if ((iRow < 0) || (iRow >= rowCount()) || (iColumn < 0) || (iColumn >= columnCount()))
     {
-        qCritical() << __PRETTY_FUNCTION__ << "bad row num : " << iRow;
+        qCritical() << __PRETTY_FUNCTION__ << "bad column num : " << iRow;
         return QVariant();
     }
 
     if ((Role_name == role) || (Qt::DisplayRole == role))
     {
-        return m_listCards[index.row()]->name();
+        //return
+        //return "test";
+        AbstractCard* abCard = m_listCards[index.column()];
+
+        if(index.row() == 0)
+        {
+            if(abCard->type() == AbstractCard::TypeOfCard_Energy)
+                return "Energie";
+            else
+                return abCard->name();
+        }
+        else if(index.row() == 1)
+        {
+            if(abCard->type() == AbstractCard::TypeOfCard_Pokemon)
+            {
+                CardPokemon* pokemon = static_cast<CardPokemon*>(abCard);
+                QList<AttackData> listAttacks = pokemon->listAttacks();
+
+                if(listAttacks.count() >= 1)
+                    return listAttacks[0].name;
+                else
+                    return "";
+            }
+            else if(abCard->type() == AbstractCard::TypeOfCard_Energy)
+            {
+                return abCard->name();
+            }
+        }
+        else if(index.row() == 2)
+        {
+            if(abCard->type() == AbstractCard::TypeOfCard_Pokemon)
+            {
+                CardPokemon* pokemon = static_cast<CardPokemon*>(abCard);
+                QList<AttackData> listAttacks = pokemon->listAttacks();
+
+                if(listAttacks.count() >= 2)
+                    return listAttacks[1].name;
+                else
+                    return "";
+            }
+        }
+        else if(index.row() == 3)
+        {
+            if(abCard->type() == AbstractCard::TypeOfCard_Pokemon)
+            {
+                CardPokemon* pokemon = static_cast<CardPokemon*>(abCard);
+                QList<AttackData> listAttacks = pokemon->listAttacks();
+
+                if(listAttacks.count() >= 3)
+                    return listAttacks[2].name;
+                else
+                    return "";
+            }
+        }
     }
 
     return QVariant::Invalid;
@@ -150,7 +206,9 @@ int AbstractPacket::rowCount(const QModelIndex& index) const
         }
     }
 
-    return rows;
+    //qDebug() << __PRETTY_FUNCTION__ << rows;
+
+    return 4;
 }
 
 /************************************************************

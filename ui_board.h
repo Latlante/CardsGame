@@ -22,6 +22,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -34,9 +35,8 @@ public:
     QVBoxLayout *verticalLayout;
     QVBoxLayout *layout_PlayerArea_P2;
     QPushButton *pushButton_EndOfTurn_P2;
-    QHBoxLayout *horizontalLayout_4;
-    QListView *listView_Hand_P2;
-    QListView *listView_BenchArea_P2;
+    QTableView *tableView_Hand_P2;
+    QTableView *tableView_BenchArea_P2;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_8;
     QSpacerItem *horizontalSpacer_2;
@@ -61,9 +61,8 @@ public:
     QLabel *label_Trash_P1;
     QLabel *label_5;
     QLabel *label_Rewards_P1;
-    QHBoxLayout *horizontalLayout;
-    QListView *listView_Hand_P1;
-    QListView *listView_BenchArea_P1;
+    QTableView *tableView_BenchArea_P1;
+    QTableView *tableView_Hand_P1;
     QPushButton *pushButton_EndOfTurn_P1;
     QPushButton *pushButton_StartGame;
 
@@ -87,21 +86,15 @@ public:
 
         layout_PlayerArea_P2->addWidget(pushButton_EndOfTurn_P2);
 
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        listView_Hand_P2 = new QListView(centralWidget);
-        listView_Hand_P2->setObjectName(QStringLiteral("listView_Hand_P2"));
+        tableView_Hand_P2 = new QTableView(centralWidget);
+        tableView_Hand_P2->setObjectName(QStringLiteral("tableView_Hand_P2"));
 
-        horizontalLayout_4->addWidget(listView_Hand_P2);
+        layout_PlayerArea_P2->addWidget(tableView_Hand_P2);
 
-        listView_BenchArea_P2 = new QListView(centralWidget);
-        listView_BenchArea_P2->setObjectName(QStringLiteral("listView_BenchArea_P2"));
+        tableView_BenchArea_P2 = new QTableView(centralWidget);
+        tableView_BenchArea_P2->setObjectName(QStringLiteral("tableView_BenchArea_P2"));
 
-        horizontalLayout_4->addWidget(listView_BenchArea_P2);
-
-
-        layout_PlayerArea_P2->addLayout(horizontalLayout_4);
+        layout_PlayerArea_P2->addWidget(tableView_BenchArea_P2);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
@@ -162,8 +155,7 @@ public:
 
         layout_PlayerArea_P2->addLayout(horizontalLayout_3);
 
-        layout_PlayerArea_P2->setStretch(1, 2);
-        layout_PlayerArea_P2->setStretch(2, 1);
+        layout_PlayerArea_P2->setStretch(3, 1);
 
         verticalLayout->addLayout(layout_PlayerArea_P2);
 
@@ -234,21 +226,15 @@ public:
 
         layout_PlayerArea_P1->addLayout(horizontalLayout_2);
 
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        listView_Hand_P1 = new QListView(centralWidget);
-        listView_Hand_P1->setObjectName(QStringLiteral("listView_Hand_P1"));
+        tableView_BenchArea_P1 = new QTableView(centralWidget);
+        tableView_BenchArea_P1->setObjectName(QStringLiteral("tableView_BenchArea_P1"));
 
-        horizontalLayout->addWidget(listView_Hand_P1);
+        layout_PlayerArea_P1->addWidget(tableView_BenchArea_P1);
 
-        listView_BenchArea_P1 = new QListView(centralWidget);
-        listView_BenchArea_P1->setObjectName(QStringLiteral("listView_BenchArea_P1"));
+        tableView_Hand_P1 = new QTableView(centralWidget);
+        tableView_Hand_P1->setObjectName(QStringLiteral("tableView_Hand_P1"));
 
-        horizontalLayout->addWidget(listView_BenchArea_P1);
-
-
-        layout_PlayerArea_P1->addLayout(horizontalLayout);
+        layout_PlayerArea_P1->addWidget(tableView_Hand_P1);
 
         pushButton_EndOfTurn_P1 = new QPushButton(centralWidget);
         pushButton_EndOfTurn_P1->setObjectName(QStringLiteral("pushButton_EndOfTurn_P1"));
@@ -256,7 +242,6 @@ public:
         layout_PlayerArea_P1->addWidget(pushButton_EndOfTurn_P1);
 
         layout_PlayerArea_P1->setStretch(0, 1);
-        layout_PlayerArea_P1->setStretch(1, 2);
 
         verticalLayout->addLayout(layout_PlayerArea_P1);
 

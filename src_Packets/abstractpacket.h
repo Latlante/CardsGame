@@ -11,7 +11,10 @@ class AbstractPacket : public QAbstractTableModel
 public:
 	enum Enum_roleCard
 	{
-		Role_name
+        Role_name = 0,
+        Role_Attack1_Name,
+        Role_Attack2_Name,
+        Role_Attack3_Name,
 	};
 
     AbstractPacket(QList<AbstractCard*> listCards = QList<AbstractCard*>());
@@ -28,7 +31,7 @@ public:
     bool removeFromPacket(AbstractCard* card);
 	
     int columnCount(const QModelIndex & = QModelIndex()) const override;
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    virtual QVariant data(const QModelIndex &index, int role) const override;
     int rowCount(const QModelIndex& index = QModelIndex()) const override;
 
 signals:

@@ -24,7 +24,7 @@ public:
     Player* currentPlayer();
     Player* playerAttacked();
     void startGame();
-    void drawFirstCards(int count);
+    void drawFirstCards();
 	int selectFirstPlayer();
 	void nextPlayer();
     void attack(Player* playAttacking, Player* playAttacked);
@@ -36,7 +36,8 @@ private slots:
     void onEndOfTurn_Player();
 
 private:
-    GameManager *m_instance;
+    static const int m_NUMBER_FIRST_CARDS;
+    static GameManager *m_instance;
 	QList<Player*> m_listPlayers;
 	unsigned short m_indexCurrentPlayer;
 	

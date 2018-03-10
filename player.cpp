@@ -96,12 +96,12 @@ bool Player::isPlaying()
 
 void Player::drawOneCard()
 {
-    qDebug() << m_name << " - "<< __PRETTY_FUNCTION__;
+    //qDebug() << m_name << " - "<< __PRETTY_FUNCTION__;
 
     if (!m_hand->isFull())
     {
         AbstractCard* newCard = m_deck->drawCard();
-        qDebug() << "drawOneCard" << newCard->name();
+        //qDebug() << "drawOneCard" << newCard->name();
         m_hand->addNewCard(newCard);
     }
     else
@@ -126,7 +126,7 @@ bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelI
 {
     bool moveSuccess = false;
 
-    AbstractCard* cardToMove = hand()->card(indexHand.row());
+    AbstractCard* cardToMove = hand()->card(indexHand.column());
 
     if (cardToMove != NULL)
     {
@@ -138,7 +138,7 @@ bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelI
             //On refuse les évolutions
             if ((cardPok != NULL) && (cardPok->isBase() == true))
             {
-                moveSuccess = moveCardFromPacketToAnother(hand(), bench(), indexHand.row());
+                moveSuccess = moveCardFromPacketToAnother(hand(), bench(), indexHand.column());
             }
             else
             {
@@ -152,7 +152,7 @@ bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelI
             if (cardEn != NULL)
             {
                 //On récupére la carte Pokémon a laquelle l'associer
-                AbstractCard* cardToAssociate = bench()->card(indexBench.row());
+                AbstractCard* cardToAssociate = bench()->card(indexBench.column());
 
                 if ((cardToAssociate != NULL) && (cardToAssociate->type() == AbstractCard::TypeOfCard_Pokemon))
                 {
@@ -187,7 +187,7 @@ bool Player::moveCardFromBenchToFight(const QModelIndex &index)
 {
     bool moveSuccess = false;
 
-    AbstractCard* cardToMove = bench()->card(index.row());
+    AbstractCard* cardToMove = bench()->card(index.column());
 
     if (cardToMove != NULL)
     {
@@ -199,7 +199,7 @@ bool Player::moveCardFromBenchToFight(const QModelIndex &index)
             //On refuse les évolutions
             if (cardPok->isBase() == true)
             {
-                moveSuccess = moveCardFromPacketToAnother(bench(), fight(), index.row());
+                moveSuccess = moveCardFromPacketToAnother(bench(), fight(), index.column());
             }
             else
             {
@@ -221,7 +221,7 @@ bool Player::moveCardFromBenchToFight(const QModelIndex &index)
 
 bool Player::moveCardFromFightToTrash(const QModelIndex &index)
 {
-    return moveCardFromPacketToAnother(fight(), trash(), index.row());
+    return moveCardFromPacketToAnother(fight(), trash(), index.column());
 }
 
 /************************************************************

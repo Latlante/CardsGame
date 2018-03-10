@@ -27,12 +27,12 @@ Board::Board(QWidget *parent) :
     QString nom = "Corentin";
     QList<AbstractCard*> listCards = m_gameManager->chooseCards(nom);
     Player* playerCorentin = m_gameManager->addNewPlayer(nom, listCards);
-    ui->listView_BenchArea_P1->setModel(playerCorentin->bench());
-    connect(ui->listView_BenchArea_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Bench_P1);
+    ui->tableView_BenchArea_P1->setModel(playerCorentin->bench());
+    connect(ui->tableView_BenchArea_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Bench_P1);
     ui->listView_FightingArea_P1->setModel(playerCorentin->fight());
-    connect(ui->listView_FightingArea_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Fight_P1);
-    ui->listView_Hand_P1->setModel(playerCorentin->hand());
-    connect(ui->listView_Hand_P1, &QListView::doubleClicked, this, &Board::onDClickedCell_Hand_P1);
+    connect(ui->listView_FightingArea_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P1);
+    ui->tableView_Hand_P1->setModel(playerCorentin->hand());
+    connect(ui->tableView_Hand_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Hand_P1);
     connect(playerCorentin->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P1);
     connect(playerCorentin->rewards(), &PacketDeck::countChanged, this, &Board::onCountChanged_Rewards_P1);
     connect(playerCorentin->trash(), &PacketDeck::countChanged, this, &Board::onCountChanged_Trash_P1);
@@ -41,21 +41,21 @@ Board::Board(QWidget *parent) :
 
     ui->label_Deck_P1->setText(QString::number(playerCorentin->deck()->countCard()));
 
-    m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_BenchArea_P1);
+    m_listWidgetsByPlayer.insert(playerCorentin, ui->tableView_BenchArea_P1);
     m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_FightingArea_P1);
-    m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_Hand_P1);
+    m_listWidgetsByPlayer.insert(playerCorentin, ui->tableView_Hand_P1);
     m_listWidgetsByPlayer.insert(playerCorentin, ui->pushButton_EndOfTurn_P1);
 
 
     nom = "Alice";
     listCards = m_gameManager->chooseCards(nom);
     Player* playerAlice = m_gameManager->addNewPlayer(nom, listCards);
-    ui->listView_BenchArea_P2->setModel(playerAlice->bench());
-    connect(ui->listView_BenchArea_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Bench_P2);
+    ui->tableView_BenchArea_P2->setModel(playerAlice->bench());
+    connect(ui->tableView_BenchArea_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Bench_P2);
     ui->listView_FightingArea_P2->setModel(playerAlice->fight());
-    connect(ui->listView_FightingArea_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Fight_P2);
-    ui->listView_Hand_P2->setModel(playerAlice->hand());
-    connect(ui->listView_Hand_P2, &QListView::doubleClicked, this, &Board::onDClickedCell_Hand_P2);
+    connect(ui->listView_FightingArea_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P2);
+    ui->tableView_Hand_P2->setModel(playerAlice->hand());
+    connect(ui->tableView_Hand_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Hand_P2);
     connect(playerAlice->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P2);
     connect(playerAlice->rewards(), &PacketDeck::countChanged, this, &Board::onCountChanged_Rewards_P2);
     connect(playerAlice->trash(), &PacketDeck::countChanged, this, &Board::onCountChanged_Trash_P2);
@@ -64,9 +64,9 @@ Board::Board(QWidget *parent) :
 
     ui->label_Deck_P2->setText(QString::number(playerAlice->deck()->countCard()));
 
-    m_listWidgetsByPlayer.insert(playerAlice, ui->listView_BenchArea_P2);
+    m_listWidgetsByPlayer.insert(playerAlice, ui->tableView_BenchArea_P2);
     m_listWidgetsByPlayer.insert(playerAlice, ui->listView_FightingArea_P2);
-    m_listWidgetsByPlayer.insert(playerAlice, ui->listView_Hand_P2);
+    m_listWidgetsByPlayer.insert(playerAlice, ui->tableView_Hand_P2);
     m_listWidgetsByPlayer.insert(playerAlice, ui->pushButton_EndOfTurn_P2);
 
     /*connect(playerCorentin->bench(), &BenchArea::countChanged, this, &Board::onCountChanged_Packets);
@@ -121,11 +121,11 @@ void Board::onDClickedCell_Hand_P1(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* play = findPlayerByWidget(ui->listView_Hand_P1);
+    Player* play = findPlayerByWidget(ui->tableView_Hand_P1);
 
     if (play != NULL)
     {
-        if(play->moveCardFromHandToBench(index, ui->listView_BenchArea_P1->currentIndex()) == false)
+        if(play->moveCardFromHandToBench(index, ui->tableView_BenchArea_P1->currentIndex()) == false)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de hand vers bench";
         }
@@ -137,11 +137,11 @@ void Board::onDClickedCell_Hand_P2(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* play = findPlayerByWidget(ui->listView_Hand_P2);
+    Player* play = findPlayerByWidget(ui->tableView_Hand_P2);
 
     if (play != NULL)
     {
-        if(play->moveCardFromHandToBench(index, ui->listView_BenchArea_P2->currentIndex()) == false)
+        if(play->moveCardFromHandToBench(index, ui->tableView_BenchArea_P2->currentIndex()) == false)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de hand vers bench";
         }
@@ -152,7 +152,7 @@ void Board::onDClickedCell_Bench_P1(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* play = findPlayerByWidget(ui->listView_BenchArea_P1);
+    Player* play = findPlayerByWidget(ui->tableView_BenchArea_P1);
 
     if (play != NULL)
     {
@@ -167,7 +167,7 @@ void Board::onDClickedCell_Bench_P2(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* play = findPlayerByWidget(ui->listView_BenchArea_P2);
+    Player* play = findPlayerByWidget(ui->tableView_BenchArea_P2);
 
     if (play != NULL)
     {
@@ -224,7 +224,7 @@ void Board::onClicked_pushButton_EndOfTurn()
 
 void Board::onClicked_pushButton_StartGame()
 {
-    m_gameManager->drawFirstCards(10);
+    m_gameManager->drawFirstCards();
     m_gameManager->startGame();
 }
 

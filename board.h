@@ -32,11 +32,14 @@ private slots:
     void onDClickedCell_Fight_P1(const QModelIndex &index);
     void onDClickedCell_Fight_P2(const QModelIndex &index);
 
+
     void onClicked_pushButton_EndOfTurn();
 
     //void onCountChanged_Packets(int count);
 
     void onClicked_pushButton_StartGame();
+
+    void onCanPlayChanged_Player(bool state);
 
 private:
     Ui::Board *ui;

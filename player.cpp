@@ -15,7 +15,7 @@
 Player::Player(QString name, QList<AbstractCard*> listCards, QObject *parent) :
 	QObject(parent),
     m_name(name),
-    m_canPlay(false),
+    m_canPlay(true),
     m_bench(new BenchArea()),
     m_deck(new PacketDeck(listCards)),
     m_fight(new FightArea()),
@@ -39,6 +39,11 @@ Player::~Player()
 /************************************************************
 *****				FONCTIONS PUBLIQUES					*****
 ************************************************************/
+const QString Player::name()
+{
+    return m_name;
+}
+
 BenchArea* Player::bench()
 {
     return m_bench;
@@ -76,7 +81,7 @@ void Player::init(QList<AbstractCard*> listCards)
 
 void Player::newTurn()
 {
-    m_canPlay = true;
+    setCanPlay(true);
 }
 
 void Player::skipYourTurn()
@@ -86,7 +91,7 @@ void Player::skipYourTurn()
 
 void Player::blockPlayer()
 {
-    m_canPlay = false;
+    setCanPlay(false);
 }
 
 bool Player::isPlaying()
@@ -120,6 +125,11 @@ void Player::attack()
 bool Player::isWinner()
 {
     return 0 == m_rewards->countCard();
+}
+
+bool Player::moveCardFromDeckToReward()
+{
+    return moveCardFromPacketToAnother(deck(), rewards(), 0);
 }
 
 bool Player::moveCardFromHandToBench(const QModelIndex &indexHand, const QModelIndex &indexBench)
@@ -227,6 +237,15 @@ bool Player::moveCardFromFightToTrash(const QModelIndex &index)
 /************************************************************
 *****				FONCTIONS PRIVEES					*****
 ************************************************************/
+void Player::setCanPlay(bool status)
+{
+    if(status != m_canPlay)
+    {
+        m_canPlay = status;
+        emit canPlayChanged(m_canPlay);
+    }
+}
+
 bool Player::moveCardFromPacketToAnother(AbstractPacket *source, AbstractPacket *destination, int index)
 {
     bool moveSuccess = false;

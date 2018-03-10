@@ -8,6 +8,7 @@
 #include "utils.h"
 
 const int GameManager::m_NUMBER_FIRST_CARDS = 10;
+const int GameManager::m_NUMBER_REWARDS = 6;
 GameManager* GameManager::m_instance = NULL;
 
 GameManager::GameManager(QObject *parent) :
@@ -57,19 +58,35 @@ GameManager* GameManager::instance()
 void GameManager::initGame()
 {
 	//Création de 2 joueurs pour le moment
-	QStringList listNames = QStringList() << "Corentin" << "Alice";
+    /*QStringList listNames = QStringList() << "Corentin" << "Alice";
 	
 	for(int i=0;i<listNames.count();++i)
 	{
 		//Création du deck
-		QList<AbstractCard*> listCards = chooseCards(listNames[i]);
+        //QList<AbstractCard*> listCards = chooseCards(listNames[i]);
 		
 		//Création du nouveau joueur
-		addNewPlayer(listNames[i], listCards);
+        //addNewPlayer(listNames[i], listCards);
+
+
+
 		
-		//Distribution de la première main
-        //drawFirstCards(6);
-	}
+
+        drawFirstCards();
+
+    }*/
+
+    //Mise en place des récompenses
+    foreach(Player *play, m_listPlayers)
+    {
+        for(int i=0;i<m_NUMBER_REWARDS;++i)
+        {
+            play->moveCardFromDeckToReward();
+        }
+    }
+
+    //Distribution de la première main
+    drawFirstCards();
 	
 	//On choisit le joueur qui va jouer en premier
 	selectFirstPlayer();
@@ -167,13 +184,13 @@ void GameManager::nextPlayer()
 	m_listPlayers[m_indexCurrentPlayer]->newTurn();
 }
 
-void GameManager::attack(Player *playAttacking, Player *playAttacked)
+void GameManager::attack(Player *playAttacking, unsigned short index, Player *playAttacked)
 {
     CardPokemon *pokemonAttacking = playAttacking->fight()->pokemonFighting(0);
     CardPokemon *pokemonAttacked = playAttacked->fight()->pokemonFighting(0);
 
     qDebug() << __PRETTY_FUNCTION__ << pokemonAttacking->name() << " Attack " << pokemonAttacked->name();
-    pokemonAttacking->tryToAttack(0, pokemonAttacked);
+    pokemonAttacking->tryToAttack(index, pokemonAttacked);
 }
 
 void GameManager::endOfTurn()
@@ -215,5 +232,16 @@ void GameManager::onEndOfTurn_Player()
     if(hasAWinner == false)
     {
         nextPlayer();
+    }
+    else
+    {
+        foreach(Player* play, m_listPlayers)
+        {
+            if(play->isWinner())
+            {
+                qDebug() << "VICTOIRE DE " << play->name();
+            }
+        }
+
     }
 }

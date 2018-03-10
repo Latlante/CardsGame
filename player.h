@@ -23,6 +23,7 @@ public:
 	Player(QString name, QList<AbstractCard*> listCards, QObject *parent = NULL);
 	~Player();
 	
+    const QString name();
     BenchArea* bench();
 	PacketDeck* deck();
     FightArea* fight();
@@ -39,6 +40,7 @@ public:
     void attack();
 	bool isWinner();
 
+    bool moveCardFromDeckToReward();
     bool moveCardFromHandToBench(const QModelIndex& indexHand, const QModelIndex& indexBench);
     bool moveCardFromBenchToFight(const QModelIndex& index);
     bool moveCardFromFightToTrash(const QModelIndex& index);
@@ -46,6 +48,7 @@ public:
 
 signals:
     void endOfTurn();
+    void canPlayChanged(bool);
 
 private:
 	QString m_name;
@@ -58,6 +61,7 @@ private:
 	PacketRewards* m_rewards;
     PacketTrash* m_trash;
 
+    void setCanPlay(bool status);
     bool moveCardFromPacketToAnother(AbstractPacket* source, AbstractPacket* destination, int index);
 
 };

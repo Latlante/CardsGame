@@ -18,7 +18,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
@@ -40,7 +39,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_8;
     QSpacerItem *horizontalSpacer_2;
-    QListView *listView_FightingArea_P2;
+    QTableView *tableView_FightingArea_P2;
     QGridLayout *gridLayout_2;
     QLabel *label_2;
     QLabel *label_Deck_P2;
@@ -53,7 +52,7 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_7;
     QSpacerItem *horizontalSpacer;
-    QListView *listView_FightingArea_P1;
+    QTableView *tableView_FightingArea_P1;
     QGridLayout *gridLayout;
     QLabel *label;
     QLabel *label_Deck_P1;
@@ -70,7 +69,7 @@ public:
     {
         if (Board->objectName().isEmpty())
             Board->setObjectName(QStringLiteral("Board"));
-        Board->resize(407, 544);
+        Board->resize(407, 568);
         centralWidget = new QWidget(Board);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -107,14 +106,15 @@ public:
 
         horizontalLayout_3->addWidget(label_8);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_3->addItem(horizontalSpacer_2);
 
-        listView_FightingArea_P2 = new QListView(centralWidget);
-        listView_FightingArea_P2->setObjectName(QStringLiteral("listView_FightingArea_P2"));
+        tableView_FightingArea_P2 = new QTableView(centralWidget);
+        tableView_FightingArea_P2->setObjectName(QStringLiteral("tableView_FightingArea_P2"));
+        tableView_FightingArea_P2->verticalHeader()->setStretchLastSection(true);
 
-        horizontalLayout_3->addWidget(listView_FightingArea_P2);
+        horizontalLayout_3->addWidget(tableView_FightingArea_P2);
 
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setSpacing(6);
@@ -178,14 +178,16 @@ public:
 
         horizontalLayout_2->addWidget(label_7);
 
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
-        listView_FightingArea_P1 = new QListView(centralWidget);
-        listView_FightingArea_P1->setObjectName(QStringLiteral("listView_FightingArea_P1"));
+        tableView_FightingArea_P1 = new QTableView(centralWidget);
+        tableView_FightingArea_P1->setObjectName(QStringLiteral("tableView_FightingArea_P1"));
+        tableView_FightingArea_P1->horizontalHeader()->setStretchLastSection(false);
+        tableView_FightingArea_P1->verticalHeader()->setStretchLastSection(true);
 
-        horizontalLayout_2->addWidget(listView_FightingArea_P1);
+        horizontalLayout_2->addWidget(tableView_FightingArea_P1);
 
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);

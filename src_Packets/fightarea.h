@@ -16,7 +16,7 @@ public:
     CardPokemon* pokemonFighting(int index);
 
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-
+    int rowCount(const QModelIndex & index = QModelIndex()) const override;
 
 
 

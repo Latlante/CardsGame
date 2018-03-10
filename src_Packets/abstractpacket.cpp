@@ -50,7 +50,7 @@ bool AbstractPacket::addNewCard(AbstractCard* newCard)
 	
     if ((NULL != newCard) && (!isFull()))
 	{
-        beginInsertColumns(QModelIndex(), 0, columnCount());
+        beginInsertColumns(QModelIndex(), columnCount(), columnCount());
 		m_listCards.append(newCard);
         endInsertColumns();
 
@@ -71,7 +71,7 @@ AbstractCard* AbstractPacket::takeACard(int index)
 
     if ((index >= 0) && (index < countCard()))
     {
-        beginRemoveColumns(QModelIndex(), 0, columnCount());
+        beginRemoveColumns(QModelIndex(), index, index);
         card = m_listCards.takeAt(index);
         endRemoveColumns();
 
@@ -97,9 +97,10 @@ bool AbstractPacket::removeFromPacket(AbstractCard *card)
 {
     bool removeSuccess = false;
 
-    if(m_listCards.indexOf(card) != -1)
+    int indexCard = m_listCards.indexOf(card);
+    if(indexCard != -1)
     {
-        beginRemoveColumns(QModelIndex(), 0, columnCount());
+        beginRemoveColumns(QModelIndex(), indexCard, indexCard);
         removeSuccess = m_listCards.removeOne(card);
         endRemoveColumns();
 

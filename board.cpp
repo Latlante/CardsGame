@@ -29,20 +29,21 @@ Board::Board(QWidget *parent) :
     Player* playerCorentin = m_gameManager->addNewPlayer(nom, listCards);
     ui->tableView_BenchArea_P1->setModel(playerCorentin->bench());
     connect(ui->tableView_BenchArea_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Bench_P1);
-    ui->listView_FightingArea_P1->setModel(playerCorentin->fight());
-    connect(ui->listView_FightingArea_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P1);
+    ui->tableView_FightingArea_P1->setModel(playerCorentin->fight());
+    connect(ui->tableView_FightingArea_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P1);
     ui->tableView_Hand_P1->setModel(playerCorentin->hand());
     connect(ui->tableView_Hand_P1, &QTableView::doubleClicked, this, &Board::onDClickedCell_Hand_P1);
     connect(playerCorentin->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P1);
     connect(playerCorentin->rewards(), &PacketDeck::countChanged, this, &Board::onCountChanged_Rewards_P1);
     connect(playerCorentin->trash(), &PacketDeck::countChanged, this, &Board::onCountChanged_Trash_P1);
 
+    connect(playerCorentin, &Player::canPlayChanged, this, &Board::onCanPlayChanged_Player);
     connect(ui->pushButton_EndOfTurn_P1, &QPushButton::clicked, this, &Board::onClicked_pushButton_EndOfTurn);
 
     ui->label_Deck_P1->setText(QString::number(playerCorentin->deck()->countCard()));
 
     m_listWidgetsByPlayer.insert(playerCorentin, ui->tableView_BenchArea_P1);
-    m_listWidgetsByPlayer.insert(playerCorentin, ui->listView_FightingArea_P1);
+    m_listWidgetsByPlayer.insert(playerCorentin, ui->tableView_FightingArea_P1);
     m_listWidgetsByPlayer.insert(playerCorentin, ui->tableView_Hand_P1);
     m_listWidgetsByPlayer.insert(playerCorentin, ui->pushButton_EndOfTurn_P1);
 
@@ -52,20 +53,21 @@ Board::Board(QWidget *parent) :
     Player* playerAlice = m_gameManager->addNewPlayer(nom, listCards);
     ui->tableView_BenchArea_P2->setModel(playerAlice->bench());
     connect(ui->tableView_BenchArea_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Bench_P2);
-    ui->listView_FightingArea_P2->setModel(playerAlice->fight());
-    connect(ui->listView_FightingArea_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P2);
+    ui->tableView_FightingArea_P2->setModel(playerAlice->fight());
+    connect(ui->tableView_FightingArea_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Fight_P2);
     ui->tableView_Hand_P2->setModel(playerAlice->hand());
     connect(ui->tableView_Hand_P2, &QTableView::doubleClicked, this, &Board::onDClickedCell_Hand_P2);
     connect(playerAlice->deck(), &PacketDeck::countChanged, this, &Board::onCountChanged_Deck_P2);
     connect(playerAlice->rewards(), &PacketDeck::countChanged, this, &Board::onCountChanged_Rewards_P2);
     connect(playerAlice->trash(), &PacketDeck::countChanged, this, &Board::onCountChanged_Trash_P2);
 
+    connect(playerAlice, &Player::canPlayChanged, this, &Board::onCanPlayChanged_Player);
     connect(ui->pushButton_EndOfTurn_P2, &QPushButton::clicked, this, &Board::onClicked_pushButton_EndOfTurn);
 
     ui->label_Deck_P2->setText(QString::number(playerAlice->deck()->countCard()));
 
     m_listWidgetsByPlayer.insert(playerAlice, ui->tableView_BenchArea_P2);
-    m_listWidgetsByPlayer.insert(playerAlice, ui->listView_FightingArea_P2);
+    m_listWidgetsByPlayer.insert(playerAlice, ui->tableView_FightingArea_P2);
     m_listWidgetsByPlayer.insert(playerAlice, ui->tableView_Hand_P2);
     m_listWidgetsByPlayer.insert(playerAlice, ui->pushButton_EndOfTurn_P2);
 
@@ -153,12 +155,17 @@ void Board::onDClickedCell_Bench_P1(const QModelIndex &index)
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
     Player* play = findPlayerByWidget(ui->tableView_BenchArea_P1);
+    qDebug() << __PRETTY_FUNCTION__ << "avant:" << play->bench()->countCard() << play->fight()->countCard();
 
     if (play != NULL)
     {
         if(play->moveCardFromBenchToFight(index) == false)
         {
             qDebug() << __PRETTY_FUNCTION__ << ", problème lors du transfert de bench vers fight";
+        }
+        else
+        {
+            qDebug() << __PRETTY_FUNCTION__ << "après:" << play->bench()->countCard() << play->fight()->countCard();
         }
     }
 }
@@ -182,12 +189,12 @@ void Board::onDClickedCell_Fight_P1(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* playAttacking = findPlayerByWidget(ui->listView_FightingArea_P1);
-    Player* playAttacked = findPlayerByWidget(ui->listView_FightingArea_P2);
+    Player* playAttacking = findPlayerByWidget(ui->tableView_FightingArea_P1);
+    Player* playAttacked = findPlayerByWidget(ui->tableView_FightingArea_P2);
 
     if ((playAttacking != NULL) && (playAttacked != NULL))
     {
-        m_gameManager->attack(playAttacking, playAttacked);
+        m_gameManager->attack(playAttacking, index.row()-2, playAttacked);
     }
     else
     {
@@ -199,12 +206,12 @@ void Board::onDClickedCell_Fight_P2(const QModelIndex &index)
 {
     qDebug() << __PRETTY_FUNCTION__ << ", double clicked on:" << index;
 
-    Player* playAttacking = findPlayerByWidget(ui->listView_FightingArea_P2);
-    Player* playAttacked = findPlayerByWidget(ui->listView_FightingArea_P1);
+    Player* playAttacking = findPlayerByWidget(ui->tableView_FightingArea_P2);
+    Player* playAttacked = findPlayerByWidget(ui->tableView_FightingArea_P1);
 
     if ((playAttacking != NULL) && (playAttacked != NULL))
     {
-        m_gameManager->attack(playAttacking, playAttacked);
+        m_gameManager->attack(playAttacking, index.row()-2, playAttacked);
     }
     else
     {
@@ -224,8 +231,18 @@ void Board::onClicked_pushButton_EndOfTurn()
 
 void Board::onClicked_pushButton_StartGame()
 {
-    m_gameManager->drawFirstCards();
+    m_gameManager->initGame();
     m_gameManager->startGame();
+}
+
+void Board::onCanPlayChanged_Player(bool state)
+{
+    Player* play = qobject_cast<Player*>(sender());
+
+    QList<QWidget*> listWidgets = m_listWidgetsByPlayer.values(play);
+    foreach (QWidget* wid, listWidgets) {
+        wid->setEnabled(state);
+    }
 }
 
 /************************************************************
